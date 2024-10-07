@@ -1,6 +1,6 @@
-  /.settings/
-  /.recommenders/
-  /bin/
-  *.class
-  /.project
-  /.classpath
+/.settings/
+/.recommenders/
+/bin/
+*.class
+/.project
+/.classpath
