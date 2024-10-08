@@ -1,0 +1,23 @@
+package hello.greetings;
+import java.io.PrintStream;
+
+public class Greetings {
+
+  public static void main(String[] args) {
+    greetings(System.out,args);
+  }
+  
+  public static void greetings(PrintStream ps, String[] args) {
+    ps.print("Greetings");
+    int i = 0;
+    if (args != null) {
+    while (i < args.length) {
+      ps.printf(" %s", args[i]);
+      i = i + 1;
+     }
+    }
+    ps.println("!");
+    return;
+  }
+}
+
