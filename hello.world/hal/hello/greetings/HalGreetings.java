@@ -7,6 +7,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class HalGreetings {
+	
+	static public void greetings(PrintStream ps, String[] args) {
+		echoGreetings(ps,args);
+	}
+	
 	public static void main(String[] args) throws IOException {
 		String[] fullname;
 		if (args == null || args.length == 0) {
