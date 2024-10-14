@@ -35,6 +35,8 @@
 			  in your Eclipse project.
 			-->			
 			<src path="src"/>
+			<src path="hal"/>
+			<src path="games"/>
 			<classpath refid="jars.classpath" />
 		</javac>
 	</target>
