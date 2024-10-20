@@ -57,6 +57,8 @@ public class Game {
 				ps.println("PERDU !\n");
 
 			}
+			
+			/// On propose au joueur de rejouer 
 
 			char replay = kbd.read("Voulez vous rejouer ? (y/n) : ");
 
