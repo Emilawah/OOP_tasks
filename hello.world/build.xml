@@ -37,6 +37,8 @@
 			<src path="src"/>
 			<src path="hal"/>
 			<src path="games"/>
+			<src path="tests"/>
+			<src path="jars"/>
 			<classpath refid="jars.classpath" />
 		</javac>
 	</target>
