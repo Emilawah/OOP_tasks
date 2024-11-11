@@ -32,17 +32,15 @@ public class WriteReadFile {
   }
 
   public static void main(String[] args) {
-    try {
-      int n = 256;
-      // writing something first, before reading it back.
-      writeFile(n);
-      // re-reading what we wrote earlier.
-      readFile(n);
-      System.out.println("\nDone.");
-    } catch(IOException ex) {
-      ex.printStackTrace(System.err);
-      System.exit(-1);
-    }
-  }
+	    try {
+	      int n = 300; // 300 bytes instead of 256
+	      writeFile(n);
+	      readFile(n);
+	      System.out.println("Done.");
+	    } catch(IOException ex) {
+	      ex.printStackTrace(System.err);
+	      System.exit(-1);
+	    }
+	  }
   
 }

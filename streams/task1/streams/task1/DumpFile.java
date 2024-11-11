@@ -36,11 +36,11 @@ public class DumpFile {
     File file = new File(name);
     InputStream is = new FileInputStream(file);
     int offset = 0;
-    int length = is.available();
+    int length = is.available(); // retourne un nombre estimé d'octets que l'on peut lire 
     for (int i=0;i < length;i++) {
       byte value = (byte)is.read();
       System.out.printf(" %4d",value);
-      if (++offset==16) {
+      if (++offset==16) { // <=> offset ++; if(offset == 16) { <instructions>}
         System.out.println();
         offset = 0;
       }

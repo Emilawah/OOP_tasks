@@ -16,17 +16,17 @@ public class UTF8File {
     for (int i = 0; i < length; i++) {
       char c = s.charAt(i);
       if ((c >= 0x0001) && (c <= 0x007F)) {
-        os.write(c);
-      } else if (c > 0x07FF) {
+        os.write(c);				// on encode le caractere en ASCII directement
+      } else if (c > 0x07FF) {		// on encode le caractère en 3 octets
         os.write(0xE0 | ((c >> 12) & 0x0F));
-        os.write(0x80 | ((c >> 6) & 0x3F));
+        os.write(0x80 | ((c >> 6) & 0x3F));   
         os.write(0x80 | ((c >> 0) & 0x3F));
-      } else {
+      } else {						// on encode le caractère en 2 octets
         os.write(0xC0 | ((c >> 6) & 0x1F));
         os.write(0x80 | ((c >> 0) & 0x3F));
       }
     }
-    os.write((byte) '\n');
+    os.write((byte) '\n');  // caractere pour montrer la fin de la chaine
   }
 
   static char readChar(InputStream is) throws IOException {
@@ -46,8 +46,8 @@ public class UTF8File {
     case 12:
     case 13:
       /* 110x xxxx   10xx xxxx*/
-      c2 = (int) is.read();
-      if ((c2 & 0xC0) != 0x80)
+      c2 = (int) is.read();			//			C0 = 11000000
+      if ((c2 & 0xC0) != 0x80) // (c2 & 0xC0) => conserve les 2 bits les plus significatifs
         throw new UTFDataFormatException("malformed input");
       return (char) (((c1 & 0x1F) << 6) | (c2 & 0x3F));
     case 14:
