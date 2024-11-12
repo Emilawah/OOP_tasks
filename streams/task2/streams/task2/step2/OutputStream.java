@@ -13,45 +13,51 @@ package streams.task2.step2;
  */
 
 public class OutputStream {
-  
-  /**
-   * Constructs an output stream with an initial capacity
-   * of the given number of bytes.
-   * 
-   * @param capacity is the initial length of the byte array
-   * @param delta is the number of bytes to grow the array by.
-   */
-  public OutputStream(int capacity, int delta) {
-    // TODO
-    throw new RuntimeException("NYI");
-  }
-  
-  /**
-   * Returns an array containing the bytes
-   * written to this output stream.
-   */
-  public byte[] getBytes() { 
-    // TODO
-    throw new RuntimeException("NYI");
-  }
 
-  /**
-   * @return the number of bytes written
-   * to this output stream,
-   */
-  public int getSize() {
-    // TODO
-    throw new RuntimeException("NYI");
-  }
+	private int tab_length;
+	private int delta;
+	private int idx;
+	
+	private byte[] buffer;
 
-  /**
-   * Writes the given byte into this stream.
-   * This method must never fail, the array
-   * must be grown if full, by adding 64 bytes
-   * each time the array is grown.
-   */
-  public void write(byte value) {
-    // TODO
-    throw new RuntimeException("NYI");
-  }
+	/**
+	 * Constructs an output stream with an initial capacity of the given number of
+	 * bytes.
+	 * 
+	 * @param capacity is the initial length of the byte array
+	 * @param delta    is the number of bytes to grow the array by.
+	 */
+	public OutputStream(int capacity, int delta) {
+		this.tab_length = capacity;
+		this.delta = delta;
+		this.idx = 0;
+	}
+
+	/**
+	 * Returns an array containing the bytes written to this output stream.
+	 */
+	public byte[] getBytes() {
+		return buffer;
+	}
+
+	/**
+	 * @return the number of bytes written to this output stream,
+	 */
+	public int getSize() {
+		int compteur = 0;
+		for(int i = 0 ; i < tab_length+delta; i++) {
+			compteur++;
+		}
+		return compteur;
+		
+	}
+
+	/**
+	 * Writes the given byte into this stream. This method must never fail, the
+	 * array must be grown if full, by adding 64 bytes each time the array is grown.
+	 */
+	public void write(byte value) {
+		buffer[idx]
+		
+	}
 }
