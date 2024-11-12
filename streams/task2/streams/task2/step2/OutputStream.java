@@ -19,6 +19,7 @@ public class OutputStream {
 	private int idx;
 	
 	private byte[] buffer;
+	private byte[] new_buffer;
 
 	/**
 	 * Constructs an output stream with an initial capacity of the given number of
@@ -30,6 +31,7 @@ public class OutputStream {
 	public OutputStream(int capacity, int delta) {
 		this.tab_length = capacity;
 		this.delta = delta;
+		this.buffer = new byte[tab_length];
 		this.idx = 0;
 	}
 
@@ -57,7 +59,10 @@ public class OutputStream {
 	 * array must be grown if full, by adding 64 bytes each time the array is grown.
 	 */
 	public void write(byte value) {
-		buffer[idx]
+		tab_length = tab_length + delta;
+		new_buffer = new byte[tab_length];
+		new_buffer[idx]=value;
+		idx++;
 		
 	}
 }
