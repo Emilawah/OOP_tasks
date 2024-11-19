@@ -17,7 +17,7 @@ public class OutputStream {
 	private int tab_length;
 	private int delta;
 	private int idx;
-	
+
 	private byte[] buffer;
 	private byte[] new_buffer;
 
@@ -46,12 +46,8 @@ public class OutputStream {
 	 * @return the number of bytes written to this output stream,
 	 */
 	public int getSize() {
-		int compteur = 0;
-		for(int i = 0 ; i < tab_length+delta; i++) {
-			compteur++;
-		}
-		return compteur;
-		
+		return idx;
+
 	}
 
 	/**
@@ -59,10 +55,19 @@ public class OutputStream {
 	 * array must be grown if full, by adding 64 bytes each time the array is grown.
 	 */
 	public void write(byte value) {
-		tab_length = tab_length + delta;
-		new_buffer = new byte[tab_length];
-		new_buffer[idx]=value;
-		idx++;
+		if (idx >= tab_length) {
+			tab_length = tab_length + delta;
+			new_buffer = new byte[tab_length];
+
+			for (int i = 0; i < idx; i++) {
+				new_buffer[i] = buffer[i];
+			}
+			
+			buffer = new_buffer;
+		}
 		
+		buffer[idx] = value;
+		idx++;
+
 	}
 }
