@@ -2,11 +2,11 @@ package streams.task4;
 
 public class Chunk {
 	
-	private byte[] bytes; // the array of bytes
+	private byte [] bytes; // the array of bytes
 	private Chunk next;   // the next chunk
 	
-	public Chunk(int capacity) {
-		this.bytes = new byte[capacity];
+	public Chunk(byte[] bytes) {
+		this.bytes = bytes;
 		this.next = null;
 	}
 	
