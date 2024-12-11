@@ -59,9 +59,9 @@ public class ByteArrayOutputStream implements OutputStream{
 	@Override
 	public void write(byte value) {
 		if(available()==-1 || available()==0) {
-			throw new IllegalStateException("The end of the tream has been reached");
+			throw new IllegalStateException("The end of the stream has been reached");
 		}
-		if (idx >= buffer.length) {
+		if (idx >= size) {
 			byte[] new_buffer = new byte[buffer.length + idx];
  
 			for (int i = 0; i < idx; i++) {
@@ -70,7 +70,7 @@ public class ByteArrayOutputStream implements OutputStream{
 			
 			buffer = new_buffer;
 		}
-		
+			
 		buffer[idx] = value;
 		idx++;
 

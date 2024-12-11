@@ -19,7 +19,8 @@ public class ByteArrayInputStream implements InputStream {
 	}
 
 	public ByteArrayInputStream(ByteArrayOutputStream s) {
-		this(s.getBytes());
+		this.size = s.getSize();
+		this.buffer = s.getBytes();
 	}
 
 	@Override
@@ -42,6 +43,7 @@ public class ByteArrayInputStream implements InputStream {
 		if (available() == -1) {
 			throw new IllegalStateException("The end of the stream has been reached");
 		}
+
 		byte value = buffer[idx];
 		idx++;
 		return value;
