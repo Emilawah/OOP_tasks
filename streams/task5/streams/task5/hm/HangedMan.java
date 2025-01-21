@@ -41,6 +41,15 @@ public class HangedMan {
 		this.nb_vies = 2 * the_mot.length;
 
 	}
+	
+	public void newGame(int n, int ntries) {
+		this.nb_vies = ntries;
+		this.the_mot = words[n];
+		this.mot_a_trouver = new char[the_mot.length];
+		for (int i = 0; i < the_mot.length; i++) {
+			mot_a_trouver[i] = '-';
+		}
+		}
 
 	/*
 	 * Once a game has been initialized, this method is used to propose a character
