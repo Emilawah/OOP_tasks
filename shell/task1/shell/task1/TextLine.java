@@ -17,6 +17,8 @@
  */
 package shell.task1;
 
+import java.awt.Color;
+
 import oop.graphics.Canvas;
 
 import oop.graphics.Graphics;
@@ -99,12 +101,18 @@ public class TextLine {
 				if (line.length() != 0 && cursor_position >0) {
 					line.deleteCharAt(cursor_position-1);
 					cursor_position--;
+					if(listener != null) {
+						listener.deleted(cursor_position, keyChar);
+					}
 					canvas.repaint();
 				}
 				break;
 			case VirtualKeyCodes.VK_DELETE:
 				if (cursor_position < line.length()) {
 					line.deleteCharAt(cursor_position);
+					if(listener != null) {
+						listener.deleted(cursor_position, keyChar);
+					}
 					canvas.repaint();
 				}
 				break;
@@ -166,17 +174,48 @@ public class TextLine {
 
 		@Override
 		public void paint(Canvas canvas, Graphics g) {
-			g.setColor(Colors.black);
-			g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-			g.setColor(Colors.white);
 			font = g.getFont("Arial", Font.PLAIN, 30);
-			g.setFont(font);
-			
-			int cursor = mouseX + g.getFont().getWidth(line.substring(0, cursor_position));
-			if (cursorVisible) {
-				g.fillRect(cursor, mouseY, 5, 30);
-			}
-			g.drawString(line.toString(), mouseX, mouseY+30);
+            g.setFont(font);
+
+            // Position du curseur calculée avec la largeur des caractères précédents
+            int cursor = mouseX + g.getFont().getWidth(line.substring(0, cursor_position));
+
+            g.setColor(Colors.black);
+            g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+            // Texte avant le curseur
+            g.setColor(Colors.white);
+            g.drawString(line.substring(0, cursor_position), mouseX, mouseY);
+
+            // Affichage du curseur
+            if(cursorVisible) {
+            g.setColor(Colors.white);
+            g.fillRect(cursor, mouseY - 30, g.getFont().getWidth('a'), 30);
+            }
+            // Changer la couleur du caractère sous le curseur
+            if (cursor_position < line.length()) {
+                if(cursorVisible) {
+                    g.setColor(Colors.white);
+                    g.fillRect(cursor, mouseY - 30, g.getFont().getWidth(line.charAt(cursor_position)), 30);
+                    g.setColor(Colors.black);
+                    g.drawString(String.valueOf(line.charAt(cursor_position)), cursor, mouseY);
+                }
+                else {
+                    g.setColor(Colors.black);
+                    g.fillRect(cursor, mouseY - 30, g.getFont().getWidth('a'), 30);
+                    g.setColor(Colors.white);
+                    g.drawString(String.valueOf(line.charAt(cursor_position)), cursor, mouseY);
+                }
+                
+            }
+            
+            // Texte après le curseur
+            if (cursor_position < line.length() - 1) {
+                g.setColor(Colors.white);
+                g.drawString(line.substring(cursor_position + 1), cursor + g.getFont().getWidth('a'), mouseY);
+            }
+            
+            
 
 		}
 
