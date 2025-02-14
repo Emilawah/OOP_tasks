@@ -36,7 +36,10 @@
   			  For example, for a source folder "task1"
   			  add a tag like this:
   			  	<src path="task1"/>
-			-->			
+			-->	
+			<src path="_given"/>
+			<src path="given"/>
+			<src path="task1"/>
 			<classpath refid="jars.classpath" />
 		</javac>
 	</target>
