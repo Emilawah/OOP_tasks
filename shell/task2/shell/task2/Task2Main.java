@@ -19,6 +19,7 @@ package shell.task2;
 
 import java.awt.Dimension;
 
+
 import oop.graphics.Canvas;
 import oop.runtime.EventPump;
 import oop.shell.ITerminal;
