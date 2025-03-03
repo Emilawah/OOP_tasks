@@ -7,16 +7,18 @@ public class Cursor {
 	private int nrows;
 	private int ncols;
 
-	public Cursor(int nrows, int ncols) {
-		this.col = 0;
-		this.row = 0;
-		this.ncols = ncols;
-		this.nrows = nrows;
+	public Cursor(int r, int c) {
+		this.col = c;
+		this.row = r;
+		this.ncols = 0;
+		this.nrows = 0;
 	}
 
-	public void setCursor(int row, int col) {
-		this.row = row;
-		this.col = col;
+	public void setCursor(int r, int c) {
+		if (r >= 0 && r < nrows)
+			setRow(r);
+		if (c >= 0 && c < ncols)
+			setCol(c);
 
 	}
 
@@ -59,4 +61,17 @@ public class Cursor {
 			row++;
 		}
 	}
+
+	public void setSize(int r, int c) {
+		nrows = r;
+		ncols = c;
+	}
+
+	public void enter() {
+		if (getRow() < nrows - 1) {
+			setRow(getRow() + 1);
+			setCol(0);
+		}
+	}
+
 }

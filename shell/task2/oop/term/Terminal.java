@@ -19,12 +19,12 @@ package oop.term;
 
 import java.awt.Color;
 
-
 import oop.graphics.Canvas;
 
 import oop.graphics.Graphics;
 import oop.graphics.Graphics.Colors;
 import oop.shell.ITerminal;
+import oop.tasks.Task;
 import oop.graphics.Font;
 
 public class Terminal implements ITerminal {
@@ -34,20 +34,20 @@ public class Terminal implements ITerminal {
 	private Text text;
 	private String fontname;
 	private int fontsize;
-	private Graphics g;
 	private Font font;
 	private Monitor monitor;
 	private Listener listener;
-	private boolean visible = true;
+	private boolean cursorVisible = true;
 
 	public Terminal(Canvas canvas, String fontName, int fontSize) {
 		this.canvas = canvas;
 		this.fontname = fontName;
 		this.fontsize = fontSize;
-		
-		this.cursor = new Cursor(0,0);
-		this.text = new Text(0,0);
-		
+
+		this.cursor = new Cursor(0, 0);
+		this.text = new Text(canvas.getWidth(), canvas.getHeight());
+		cursorBlink(canvas);
+
 	}
 
 	/*
@@ -56,49 +56,80 @@ public class Terminal implements ITerminal {
 	 * display the characters, because each characters has its own width, for a
 	 * given font.
 	 */
-	
+	public void cursorBlink(Canvas canvas) {
+		Task task = Task.task();
+		task.post(new Runnable() {
+			public void run() {
+				cursorVisible = !cursorVisible;
+				canvas.repaint();
+				task.post(this, 500);
+			}
+		});
+	}
+
+	public void paint(Canvas canvas, Graphics g) {
+
+		g.setColor(Colors.black);
+		g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+		font = g.getFont(fontname, font.PLAIN, fontsize);
+		int font_width = font.getWidth('W');
+		int font_height = font.getHeight();
+
+		this.cursor.setSize(nrows(), ncols());
+
+		g.setColor(Colors.green);
+		g.setFont(font);
+
+		for (int i = 0; i < nrows(); i++) {
+			for (int j = 0; j < ncols(); j++) {
+				char c = text.getCharAt(i, j);
+				if (c != ' ') {
+					g.drawString(String.valueOf(c), j * font_width, (i + 1) * font_height);
+				}
+
+			}
+		}
+		if (cursorVisible) {
+			g.setColor(Colors.green);
+			g.fillRect(column() * font_width, row() * font_height, font_width, font_height);
+			g.setColor(Colors.black);
+			g.drawString(String.valueOf(text.getCharAt(row(), column())), column() * font_width,
+					(row() + 1) * font_height);
+		} else if (!cursorVisible) {
+			g.setColor(Colors.black);
+			g.fillRect(column() * font_width, row() * font_height, font_width, font_height);
+			g.setColor(Colors.green);
+			g.drawString(String.valueOf(text.getCharAt(row(), column())), column() * font_width,
+					(row() + 1) * font_height);
+		}
+
+	}
+
 	public void clicked(int x, int y) {
-		int col = x;
-		int row = y-15;
-		setCursor(row,col);
+		int col = x / font.getWidth('W');
+		int row = y / font.getHeight();
+		setCursor(row, col);
 	}
 
 	/*
 	 * Request this terminal to repaint itself on the given canvas with the given
 	 * graphics.
 	 */
-	public void paint(Canvas canvas, Graphics g) {
-
-		g.setColor(Colors.black);
-		g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-		font = g.getFont(fontname,font.PLAIN,fontsize);
-		g.setFont(font);
-		cursor.setCursor(row(),column());
-
-		g.setColor(Colors.green);
-		
-		g.fillRect(column(), row(), g.getFont().getWidth('W'), 30);
-			
-	}
 
 	@Override
 	public int ncols() {
-		return canvas.getWidth() / font.getHeight();
+		return canvas.getWidth() / font.getWidth('W');
 	}
 
 	@Override
 	public int nrows() {
-		return canvas.getHeight() / font.getWidth('W');
+		return canvas.getHeight() / font.getHeight();
 	}
 
 	@Override
 	public void setCursor(int row, int col) {
-		cursor.setCursor(row,col);
-		System.out.println("Ncols : "+ncols());
-		System.out.println("Nrows : "+nrows());
-		System.out.println("Column : "+column());
-		System.out.println("Row : "+row());
+		cursor.setCursor(row, col);
 		canvas.repaint();
 	}
 
@@ -138,32 +169,43 @@ public class Terminal implements ITerminal {
 
 	@Override
 	public void delete() {
-		text.delete();
+		text.delete(row(), column());
+		canvas.repaint();
 	}
 
 	@Override
 	public void backspace() {
-		text.backspace();
+		if (cursor.getCol() != 0) {
+			cursor.left();
+			text.delete(row(), column());
+		}
+
+		canvas.repaint();
 	}
 
 	@Override
 	public void clear() {
 		text.clear();
+		canvas.repaint();
 	}
 
 	@Override
 	public void clear(int row) {
 		text.clearRow(row);
+		canvas.repaint();
 	}
 
 	@Override
 	public void enter() {
-		text.enter();
+		cursor.enter();
+		canvas.repaint();
 	}
 
 	@Override
 	public void insert(char c) {
-		text.insert(c);
+		text.insert(row(), column(), c);
+		cursor.right();
+		canvas.repaint();
 	}
 
 	@Override
@@ -174,12 +216,7 @@ public class Terminal implements ITerminal {
 	@Override
 	public void monitor(Monitor l) {
 		this.monitor = l;
-		
+
 	}
 
 }
-
-
-
-
-  
