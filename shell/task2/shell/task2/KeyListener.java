@@ -18,6 +18,7 @@
 package shell.task2;
 
 import oop.graphics.Canvas;
+
 import oop.shell.ITerminal;
 import oop.streams.VirtualKeyCodes;
 
