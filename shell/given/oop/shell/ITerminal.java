@@ -122,14 +122,10 @@ public interface ITerminal {
    * right.
    */
   public void insert(char c);
-
+  
   /*
-   * This is the listener that notifies when the terminal
-   * is available to use, after the listener has been set.
-   * 
-   * Normally, the first callback is "available", but it 
-   * may happen that it is "revoked". The callback "revoked"
-   * is always the last one. 
+   * This is an optional listener to be able to spy 
+   * on the terminal activity. 
    */
   public interface Listener {
     // called when this listener is operational 
@@ -138,26 +134,6 @@ public interface ITerminal {
     // called when this listener has been revoked,
     // it will never be called again.
     void revoked();
-  }
-
-  /*
-   * Sets the unique listener for this terminal.
-   * 
-   * If there is currently a listener, the current 
-   * listener is first revoked and the new listener is
-   * set up and the callback "available" will be invoked 
-   * on the new listener when appropriate.
-   * 
-   * Nota bene: any such listener must be called back on
-   *            the task that was used to set that listener.
-   */
-  public void set(Listener l);
-
-  /*
-   * This is an optional listener to be able to spy 
-   * on the terminal activity. 
-   */
-  public interface Monitor extends Listener {
 
     // the display has been cleared.
     void cleared();
@@ -180,21 +156,13 @@ public interface ITerminal {
   }
 
   /*
-   * Sets the monitoring listener for this terminal,
-   * only one listener may be set at any given point 
-   * in time. To remove the current listener, set the
-   * listener to null.
-   * 
-   * The first callback will always be "available",
-   * unless it is "revoked". The callback "revoked"
-   * will always be the last. 
-   * 
-   * Nota bene: any listener must be called back on
-   *            the task that was used to set that listener.
-   *            
-   * @throws IllegalStateException if improperly used.           
+   * Sets the unique listener for this terminal.
+   * If there is currently a listener, the current 
+   * listener is first revoked and the new listener is
+   * set up.  
+   * Nota bene: the listener must be called back on
+   *            the task that was used to set the listener.
    */
-  public void monitor(Monitor l);
-
+  public void set(Listener l);
 
 }

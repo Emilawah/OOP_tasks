@@ -15,27 +15,35 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package oop.streams;
+package oop.utils;
 
-public interface InputStream extends Stream {
-  
-  /*
-   * Reads the next available byte.
-   * This method must only be invoked if this
-   * stream is available, that is, if the method
-   * available() returns true. 
-   * Otherwise, invoking this method throws
-   * an illegal-state exception.
-   */
-  byte read();
-  
-  /*
-   * Fills in the given array with available 
-   * bytes, starting at the given offset.
-   * This method returns the number of bytes
-   * actually read, which may be zero and otherwise
-   * is always less or equal to the given length.
-   */
-  int read(byte bytes[], int offset, int length);
+import oop.streams.Stream;
+import oop.tasks.Task;
 
+public abstract class ByteStream implements Stream {
+  protected ByteRing m_ring;
+
+  protected ByteStream(ByteRing ring) {
+    throw new RuntimeException("NYI");
+  }
+
+  @Override
+  public void set(Listener l) {
+    throw new RuntimeException("SHOULD IT BE IMPLEMENTED HERE?");
+  }
+
+  @Override
+  public void close() {
+    throw new RuntimeException("SHOULD IT BE IMPLEMENTED HERE?");
+  }
+
+  @Override
+  public boolean closed() {
+    throw new RuntimeException("SHOULD IT BE IMPLEMENTED HERE?");
+  }
+
+  @Override
+  public boolean available() {
+    throw new RuntimeException("SHOULD IT BE IMPLEMENTED HERE?");
+  }
 }

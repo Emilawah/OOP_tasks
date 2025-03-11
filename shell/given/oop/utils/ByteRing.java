@@ -28,19 +28,10 @@ package oop.utils;
 public class ByteRing {
   int m_tail, m_head;
   byte m_bytes[];
-  boolean m_closed;
 
   public ByteRing(int capacity) {
     m_bytes = new byte[capacity];
     m_tail = m_head = 0;
-  }
-
-  public void close() {
-    m_closed = true;
-  }
-
-  public boolean closed() {
-    return m_closed;
   }
 
   /**

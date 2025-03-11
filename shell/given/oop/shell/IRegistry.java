@@ -17,7 +17,6 @@
  */
 package oop.shell;
 
-import oop.runtime.Task;
 import oop.streams.InputStream;
 import oop.streams.OutputStream;
 
@@ -26,17 +25,18 @@ import oop.streams.OutputStream;
  * launched from the shell command line.
  * This registry holds (name, factory) pairs, where
  * the name must be unique and the factory provides
- * a way to create new instances of a program.
+ * a way to create new instances of the program
+ * corresponding to the name.
  */
 public interface IRegistry {
 
   public interface IFactory {
     /*
-     *  the name of the factory, corresponding to the name 
+     * The name of the factory, corresponding to the name 
      * used in the shell command line to launch a new instance
      * of this program.
      */
-    String name();
+    String name(); 
     
     /*
      * This is the class name to be instantiated.
@@ -51,15 +51,36 @@ public interface IRegistry {
     /*
      * This actually creates a new "program" and launches it
      * with the given arguments, executing on a new task, 
-     * that one being returned. The provided listener
+     * the one being returned. The provided listener
      * allows to be notified once the task completes. 
      */
-    Task launch(Task.Listener l, String args[], InputStream is, OutputStream os);
+    Runnable launch(String args[], InputStream is, OutputStream ps);
   }
   
+  /*
+   * Lists the known names.
+   */
   String[] list();
+  
+  /*
+   * Looks up the factory registered with the given name, 
+   * if it exists. Return null if the name is unknown.
+   */
   IFactory lookup(String name);
+  
+  /*
+   * Registers a new pair (name, factory), 
+   * only if the name has not been already registered.
+   * Returns true if the registration was accepted,
+   * false otherwise.
+   */
   boolean register(String name, IFactory factory);
+  
+  /*
+   * Unregisters the pair (name,factory) corresponding
+   * to the given name. Returns true if the name was
+   * found and the operation was successful, false otherwise.
+   */
   boolean unregister(String name);
   
 }

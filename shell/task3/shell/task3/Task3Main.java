@@ -43,7 +43,7 @@ public class Task3Main implements Runnable {
 	public void run() {
 		Task task = Task.task();
 		m_canvas = (Canvas) task.find("canvas");
-		m_term = new Terminal(m_canvas, "Ubuntu Mono", 18);
+		m_term = new Terminal(m_canvas, "Ubuntu Mono", 35);
 
 		new PaintListener(m_canvas, m_term);
 		
