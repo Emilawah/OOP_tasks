@@ -21,29 +21,48 @@ import oop.streams.Stream;
 import oop.tasks.Task;
 
 public abstract class ByteStream implements Stream {
-  protected ByteRing m_ring;
+	protected ByteRing m_ring;
+	protected Listener listener;
+	protected Task t;
+	protected boolean isClosed = false;
 
-  protected ByteStream(ByteRing ring) {
-    throw new RuntimeException("NYI");
-  }
+	protected ByteStream(ByteRing ring) {
+		this.m_ring = ring;
+	}
 
-  @Override
-  public void set(Listener l) {
-    throw new RuntimeException("SHOULD IT BE IMPLEMENTED HERE?");
-  }
+	@Override
+	public void set(Listener l) {
+		this.listener = l;
+		this.t = Task.task();
+	}
 
-  @Override
-  public void close() {
-    throw new RuntimeException("SHOULD IT BE IMPLEMENTED HERE?");
-  }
+	@Override
+	public void close() {
+	    isClosed = true;
 
-  @Override
-  public boolean closed() {
-    throw new RuntimeException("SHOULD IT BE IMPLEMENTED HERE?");
-  }
+	    if (listener != null) {
+	        t.post(() -> listener.closed(this));
+	    }
 
-  @Override
-  public boolean available() {
-    throw new RuntimeException("SHOULD IT BE IMPLEMENTED HERE?");
-  }
+	    if (t != null) {
+	        t.terminate();
+	    }
+	}
+
+	@Override
+	public boolean closed() {
+		return isClosed;
+	}
+
+	@Override
+	public boolean available() {
+
+		boolean isAvailable = !m_ring.empty();
+
+		if (isAvailable && !closed() && listener != null) {
+			t.post(() -> listener.available(this));
+		}
+
+		return isAvailable;
+	}
 }

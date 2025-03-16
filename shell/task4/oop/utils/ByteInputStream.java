@@ -27,8 +27,8 @@ public class ByteInputStream extends ByteStream implements InputStream {
 
 	@Override
 	public byte read() {
-		if (!available()) {
-			throw new IllegalStateException("Can't read, Stream is full\n");
+		if (m_ring.empty()) {
+			throw new IllegalStateException("Can't read, Stream is empty\n");
 		}
 		return m_ring.pull();
 		
@@ -39,8 +39,11 @@ public class ByteInputStream extends ByteStream implements InputStream {
 	public int read(byte[] bytes, int offset, int length) {
 
 		int nb_bytes = 0;
-		while (available() && nb_bytes < length + offset) {
-			bytes[offset+nb_bytes] = read();
+		for (int i = 0 ; i < offset + length ; i++) {
+			if(m_ring.empty()) {
+				break;
+			}
+			bytes[i] = read();
 			nb_bytes++;
 		}
 		return nb_bytes;

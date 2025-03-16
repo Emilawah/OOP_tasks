@@ -27,7 +27,7 @@ public class ByteOutputStream extends ByteStream implements OutputStream {
 
   @Override
   public void write(byte bits) {
-	  if (!available()) {
+	  if (m_ring.full()) {
 			throw new IllegalStateException("Can't write, Stream is full\n");
 		}
 		m_ring.push(bits);
@@ -37,8 +37,11 @@ public class ByteOutputStream extends ByteStream implements OutputStream {
   @Override
   public int write(byte[] bytes, int offset, int length) {
 	  int nb_bytes = 0;
-		while (available() && nb_bytes < length + offset) {
-			write(bytes[offset+nb_bytes]);
+		for(int i = 0 ; i < offset + length ; i++) {
+			if(m_ring.full()) {
+				break;
+			}
+			write(bytes[i]);
 			nb_bytes++;
 		}
 		return nb_bytes;
