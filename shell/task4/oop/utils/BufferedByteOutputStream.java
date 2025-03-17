@@ -33,45 +33,99 @@ import oop.streams.OutputStream;
 
 public class BufferedByteOutputStream implements OutputStream {
 
-  /*
-   * The given capacity is the size of each chunk, that is,
-   * the length of the byte array used by each chunk to
-   * buffer written bytes until they can be written to
-   * the given output stream.
-   */
-  public BufferedByteOutputStream(int capacity, OutputStream os) {
-    throw new RuntimeException("NYI");
-  }
+	/*
+	 * The given capacity is the size of each chunk, that is, the length of the byte
+	 * array used by each chunk to buffer written bytes until they can be written to
+	 * the given output stream.
+	 */
 
-  @Override
-  public void set(Listener l) {
-    throw new RuntimeException("NYI");
-  }
+	private Listener listener;
+	private OutputStream m_os;
+	private boolean isClosed = false;
+	private int capacity;
+	private Chunk head;
+	private Chunk tail;
 
-  @Override
-  public void close() {
-    throw new RuntimeException("NYI");
-  }
+	public BufferedByteOutputStream(int capacity, OutputStream os) {
+		this.capacity = capacity;
+		this.m_os = os;
+		this.head = new Chunk(capacity);
+		this.tail = head;
 
-  @Override
-  public boolean closed() {
-    throw new RuntimeException("NYI");
-  }
+	}
 
-  @Override
-  public boolean available() {
-    throw new RuntimeException("NYI");
-  }
+	@Override
+	public void set(Listener l) {
+		m_os.set(l);
 
-  @Override
-  public void write(byte bits) {
-    throw new RuntimeException("NYI");
-  }
+	}
 
-  @Override
-  public int write(byte[] bytes, int offset, int length) {
-    throw new RuntimeException("NYI");
-  }
+	@Override
+	public void close() {
 
+		if (!isClosed) {
+			vider();
+			isClosed = true;
+			m_os.close();
+		}
+		if (listener != null) {
+			listener.closed(this);
+		}
+	}
+
+	@Override
+	public boolean closed() {
+		return isClosed;
+	}
+
+	@Override
+	public boolean available() {
+		if (listener != null) {
+			listener.available(this);
+		}
+		return !head.isFull();
+
+	}
+
+	@Override
+	public void write(byte bits) {
+		if (closed()) {
+			throw new IllegalStateException("Stream is closed");
+		}
+
+		if (tail.size == capacity) {
+			Chunk new_chunk = new Chunk(capacity);
+			tail.next = new_chunk;
+			tail = new_chunk;
+		}
+		tail.data[tail.size++] = bits;
+
+	}
+
+	@Override
+	public int write(byte[] bytes, int offset, int length) {
+
+		if (closed()) {
+			throw new IllegalStateException("Stream is closed");
+		}
+		int nb_bytes = 0;
+		for (int i = offset; i < offset + length; i++) {
+			write(bytes[i]);
+			nb_bytes++;
+		}
+		return nb_bytes;
+	}
+
+	public void vider() {
+		while (head != null) {
+			if (head.size > 0) {
+				m_os.write(head.data, 0, head.size);
+			}
+			head = head.next;
+		}
+
+		tail = null;
+
+	}
 
 }
