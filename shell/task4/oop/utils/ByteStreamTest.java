@@ -30,7 +30,6 @@ public class ByteStreamTest {
 	private static byte[] m_bytes4 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 	private static byte[] m_bytes_toComplete4 = new byte[m_bytes4.length + 30];
 
-
 	public static void main(String args[]) {
 		EventPump ep = new EventPump();
 
@@ -49,9 +48,9 @@ public class ByteStreamTest {
 				test(11, m_bytes4, m_bytes_toComplete4);
 
 				// TESTS ByteBufferedOutputStream
-				test_buff(11, m_bytes5, m_bytes_toComplete5);
-				test_buff(13, m_bytes6, m_bytes_toComplete6);
-				test_buff(2, m_bytes7, m_bytes_toComplete7);
+				test_buff(6, m_bytes5, m_bytes_toComplete5);
+				test_buff(3, m_bytes6, m_bytes_toComplete6);
+				test_buff(1, m_bytes7, m_bytes_toComplete7);
 
 				// finalCheck();
 
@@ -116,10 +115,24 @@ public class ByteStreamTest {
 		Task t = Task.task();
 		Task producer = t.newTask("producerTask");
 		Task consumer = t.newTask("consumerTask");
+
+		int[] pos_chunk = { 0 };
+		int[] pos_values = { 0 };
 		producer.post(new Runnable() {
 			public void run() {
 				for (byte b : m_bytes) {
+					if (m_bos.isFull()) {
+						System.out.println("Chunk full, -> ...");
+						m_bos.vider();
+						while (m_is.available()) {
+							byte value = m_is.read();
+							m_bytes_toComplete[pos_chunk[0]++] = value;
+							System.out.println("Read : " + value);
+						}
+					}
+
 					m_bos.write(b);
+					pos_values[0]++;
 					System.out.println("Wrote : " + b);
 				}
 
@@ -130,23 +143,21 @@ public class ByteStreamTest {
 
 		consumer.post(new Runnable() {
 			public void run() {
-				int idx = 0;
 
 				while (!m_is.closed() || m_is.available()) {
 
 					if (m_is.available()) {
 						byte value = m_is.read();
-						m_bytes_toComplete[idx++] = value;
+						m_bytes_toComplete[pos_chunk[0]++] = value;
 						System.out.println("Read : " + value);
 
-					} else if (idx >= capacity - 1) {
+					} else if (pos_values[0] <= pos_chunk[0]) {
 
 						break;
-						
-					} else {
-						break;
+
 					}
 				}
+				m_os.close();
 				m_is.close();
 				consumer.terminate();
 			}
@@ -179,7 +190,5 @@ public class ByteStreamTest {
 			ep.shutdown();
 		});
 	}
-
-	
 
 }

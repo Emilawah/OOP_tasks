@@ -22,7 +22,7 @@ import oop.streams.OutputStream;
 public class ByteOutputStream extends ByteStream implements OutputStream {
 
   public ByteOutputStream(int capacity) {
-    super(new ByteRing(capacity));
+    super(new ByteRing(capacity+1));
   }
 
   @Override

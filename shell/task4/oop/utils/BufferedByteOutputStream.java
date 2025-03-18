@@ -83,7 +83,7 @@ public class BufferedByteOutputStream implements OutputStream {
 		if (listener != null) {
 			listener.available(this);
 		}
-		return !head.isFull();
+		return !head.chunkFull();
 
 	}
 
@@ -93,7 +93,7 @@ public class BufferedByteOutputStream implements OutputStream {
 			throw new IllegalStateException("Stream is closed");
 		}
 
-		if (tail.size == capacity) {
+		if (tail.chunkFull()) {
 			Chunk new_chunk = new Chunk(capacity);
 			tail.next = new_chunk;
 			tail = new_chunk;
@@ -124,8 +124,12 @@ public class BufferedByteOutputStream implements OutputStream {
 			head = head.next;
 		}
 
-		tail = null;
+		tail = new Chunk(capacity);
+		head = tail;
 
 	}
 
+	public boolean isFull() {
+		return tail.chunkFull();
+	}
 }
