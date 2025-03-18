@@ -17,7 +17,6 @@
  */
 package oop.runtime;
 
-
 import java.awt.Dimension;
 
 import oop.graphics.Canvas;
@@ -170,16 +169,25 @@ public class EventPump {
   public interface CanvasExt extends Canvas {
     void set(oop.tasks.Task task, Runnable r);
   }
-  
+
+  /*
+   * This boot is used when running our tests
+   */
   public void boot(CanvasExt cs, Runnable r) {
+    Task.CatchAll=false;
     Task task = new Task(this);
-    cs.set(task,r);
+    cs.set(task, r);
     task.register("canvas", cs);
     loop();
-    // do not system exit, 
-    // this is used by our tests.
+    // the execution comes back here when 
+    // the pump is shutdown. Do not system exit,
+    // but just return.
+    return;
   }
 
+  /*
+   * This bootstraps is with a canvas service.
+   */
   public void boot(Dimension d, Runnable r) {
     Task task = new Task(this);
     CanvasService cs = new GameCanvasService(task, d, r);
@@ -190,6 +198,10 @@ public class EventPump {
     System.exit(0);
   }
 
+  /*
+   * This bootstraps is without a canvas service,
+   * in other words a headless environment.
+   */
   public void boot(Runnable r) {
     Task task = new Task(this);
     task.post(r);

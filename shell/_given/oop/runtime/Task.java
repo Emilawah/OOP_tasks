@@ -18,7 +18,6 @@
 package oop.runtime;
 
 import java.util.HashMap;
-
 import java.util.Map;
 
 public final class Task extends oop.tasks.Task {
@@ -27,7 +26,7 @@ public final class Task extends oop.tasks.Task {
   /*
    * Construct a new task, with the given name.
    */
-  public Task(String name) {
+  private Task(String name) {
     m_name = name;
     m_pump = EventPump.self();
   }
@@ -101,6 +100,8 @@ public final class Task extends oop.tasks.Task {
   private Task m_ltask;
 
   private Throwable m_th;
+  
+  static boolean CatchAll=true;
 
   Task(EventPump pump) {
     m_name = "root";
@@ -155,7 +156,11 @@ public final class Task extends oop.tasks.Task {
           _task(Task.this);
           m_react.run();
         } catch (Throwable th) {
-          failed(th);
+          if (CatchAll) {
+            th.printStackTrace(System.err);
+            failed(th);
+          } else 
+            throw th;
         }
         _task(null);
       }

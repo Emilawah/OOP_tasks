@@ -33,10 +33,6 @@ public interface OutputStream extends Stream {
    * in the range [offset,offset+length[.
    * This method returns the number of bytes
    * actually written, which may be zero.
-   * 
-   * Invoking this method when this stream 
-   * is unavailable will result in 
-   * an illegal-state exception being thrown.
    */
   int write(byte bytes[], int offset, int length);
   

@@ -196,5 +196,4 @@ public interface ITerminal {
    */
   public void monitor(Monitor l);
 
-
 }

@@ -15,27 +15,37 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package oop.streams;
+package oop.utils;
 
-public interface InputStream extends Stream {
-  
-  /*
-   * Reads the next available byte.
-   * This method must only be invoked if this
-   * stream is available, that is, if the method
-   * available() returns true. 
-   * Otherwise, invoking this method throws
-   * an illegal-state exception.
-   */
-  byte read();
-  
-  /*
-   * Fills in the given array with available 
-   * bytes, starting at the given offset.
-   * This method returns the number of bytes
-   * actually read, which may be zero and otherwise
-   * is always less or equal to the given length.
-   */
-  int read(byte bytes[], int offset, int length);
+import oop.streams.OutputStream;
+
+public class ByteOutputStream extends ByteStream implements OutputStream {
+
+  public ByteOutputStream(int capacity) {
+    super(new ByteRing(capacity+1));
+  }
+
+  @Override
+  public void write(byte bits) {
+	  if (m_ring.full()) {
+			throw new IllegalStateException("Can't write, Stream is full\n");
+		}
+		m_ring.push(bits);
+    
+  }
+
+  @Override
+  public int write(byte[] bytes, int offset, int length) {
+	  int nb_bytes = 0;
+		for(int i = 0 ; i < offset + length ; i++) {
+			if(m_ring.full()) {
+				break;
+			}
+			write(bytes[i]);
+			nb_bytes++;
+		}
+		return nb_bytes;
+  }
+
 
 }

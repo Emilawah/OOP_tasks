@@ -27,7 +27,7 @@ package oop.utils;
  */
 public class ByteRing {
   int m_tail, m_head;
-  byte m_bytes[];
+  byte[] m_bytes;
   boolean m_closed;
 
   public ByteRing(int capacity) {
