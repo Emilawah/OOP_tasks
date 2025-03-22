@@ -9,7 +9,7 @@ public class ArrayList implements IList {
 		
 		private int index = 0;
 		private Object[] m_obj;
-		private int size;
+		private int size = 0;
 		
 		public Iterator(ArrayList m_list){
 			this.m_obj = m_list.m_obj;
@@ -38,8 +38,8 @@ public class ArrayList implements IList {
 	 * Constructs an empty list.
 	 */
 	public ArrayList() {
-		this.m_obj = new Object[20];
-		this.size = 0;
+		this.m_obj = new Object[0];
+		this.size = m_obj.length;
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class ArrayList implements IList {
 	 */
 	public ArrayList(ArrayList v) {
 		this.m_obj = v.m_obj;
-		this.size = v.size;
+		this.size = v.length();
 	}
 
 	/**
@@ -94,6 +94,7 @@ public class ArrayList implements IList {
 		} else {
 			Object elem = m_obj[index];
 			elem = niu;
+			m_obj[index] = elem;
 			return elem;
 		}
 	}
@@ -104,7 +105,15 @@ public class ArrayList implements IList {
 			throw new IndexOutOfBoundsException("Invalid index");
 		}
 		if (index >= size) {
+
+			Object[] new_list = new Object[index+1];
+			for(int i = 0 ; i < size ; i++) {
+				new_list[i] = m_obj[i];
+			}
+			m_obj = new_list;
 			size = index + 1;
+
+
 		}
 		m_obj[index] = elem;
 
@@ -120,6 +129,11 @@ public class ArrayList implements IList {
 			for (int i = index; i < size - 1; i++) {
 				m_obj[i] = m_obj[i + 1];
 			}
+			Object[] new_array = new Object[m_obj.length-1];
+			for (int i = 0; i < size - 1; i++) {
+				new_array[i] = m_obj[i];
+			}
+			m_obj = new_array;
 			size--;
 			return obj_suppr;
 		}
@@ -148,8 +162,12 @@ public class ArrayList implements IList {
 
 	@Override
 	public void toArray(Object elems[]) {
-		for(int i = 0 ; i < size ; i++) {
+		if(size != elems.length) {
+			m_obj = new Object[elems.length];
+		}
+		for(int i = 0 ; i < elems.length ; i++) {
 			m_obj[i] = elems[i];
+			size++;
 		}
 	}
 	
