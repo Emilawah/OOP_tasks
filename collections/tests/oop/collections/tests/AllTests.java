@@ -1,5 +1,6 @@
 package oop.collections.tests;
 
+import oop.collections.IList;
 import oop.utils.collections.ArrayList;
 
 
@@ -15,7 +16,7 @@ public class AllTests {
 		static boolean test01() {
 			boolean passed = true;
 			Object[] m_obj = { 1, 2, 3, 4, 5 };
-			ArrayList list = new ArrayList(m_obj);
+			IList list = new ArrayList(m_obj);
 			if (list.length() != 5) {
 				System.out.println("Wrong size ! \n");
 				passed = false;
@@ -43,7 +44,7 @@ public class AllTests {
 		static boolean test02() {
 			boolean passed = true;
 
-			ArrayList list = new ArrayList();
+			IList list = new ArrayList();
 			list.insertAt(0, "Hello");
 			list.insertAt(1, "World");
 			if (!list.elementAt(0).equals("Hello")) {
@@ -79,7 +80,7 @@ public class AllTests {
 
 		static boolean test03() {
 			boolean passed = true;
-			ArrayList list = new ArrayList();
+			IList list = new ArrayList();
 			for (int i = 0; i <= 15; i++) {
 				list.insertAt(i, i);
 
@@ -116,7 +117,7 @@ public class AllTests {
 
 		static boolean test04() {
 			boolean passed = true;
-			ArrayList list = new ArrayList();
+			IList list = new ArrayList();
 			Object[] objs = {"A","B","C","D"};
 			list.toArray(objs);
 			for(int i = 0 ; i < objs.length ; i++) {
@@ -137,8 +138,8 @@ public class AllTests {
 			}
 		}
 		
-		static void iteratorTest(ArrayList list) {
-			ArrayList.Iterator it = list.iterator();
+		static void iteratorTest(IList list) {
+			IList.Iterator it = ((ArrayList)list).iterator();
 			System.out.print("[ ");
 
 			while (it.hasNext()) {
