@@ -165,9 +165,9 @@ public class ArrayList implements IList {
 		if(size != elems.length) {
 			m_obj = new Object[elems.length];
 		}
+		size = elems.length;
 		for(int i = 0 ; i < elems.length ; i++) {
 			m_obj[i] = elems[i];
-			size++;
 		}
 	}
 	
