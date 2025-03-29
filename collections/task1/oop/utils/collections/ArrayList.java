@@ -1,6 +1,7 @@
 package oop.utils.collections;
 
 import oop.collections.ICollection;
+
 import oop.collections.IList;
 
 public class ArrayList implements IList {
