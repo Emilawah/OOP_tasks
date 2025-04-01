@@ -39,6 +39,9 @@ public class HashTable implements IMap {
 
 	@Override
 	public Object get(Object key) {
+		if(key == null) {
+			return null;
+		}
 		int index = (key.hashCode() % buckets.length + buckets.length) % buckets.length;
 		LinkedList bucket = buckets[index];
 		for (int i = 0; i < bucket.length(); i++) {
@@ -53,6 +56,9 @@ public class HashTable implements IMap {
 
 	@Override
 	public Object put(Object key, Object value) {
+		if(key == null) {
+			return null;
+		}
 		int index = (key.hashCode() % buckets.length + buckets.length) % buckets.length;
 		LinkedList bucket = buckets[index];
 		
@@ -71,6 +77,9 @@ public class HashTable implements IMap {
 
 	@Override
 	public Object remove(Object key) {
+		if(key == null) {
+			return null;
+		}
 		int index = (key.hashCode() % buckets.length + buckets.length) % buckets.length;
 		LinkedList bucket = buckets[index];
 		for (int i = 0; i < bucket.length(); i++) {
