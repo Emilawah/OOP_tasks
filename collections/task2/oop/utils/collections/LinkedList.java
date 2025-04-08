@@ -1,4 +1,4 @@
-package oop.utils.collections;
+	package oop.utils.collections;
 
 import oop.collections.ICollection;
 import oop.collections.IList;
@@ -65,22 +65,19 @@ public class LinkedList implements IList {
 	 * Constructs a list, initialized with the elements from the given list.
 	 */
 	public LinkedList(LinkedList v) {
-		Node cell = v.head;
-		while (cell != null) {
-			insertAt(size, cell.value);
-			cell = cell.next;
-		}
+		for (Node noeud = v.head; noeud != null; noeud = noeud.next) {
+            insertAt(size, noeud.value);
+        }
 	}
 
 	/**
 	 * Constructs a list, initialized with the elements from the given collection.
 	 */
 	public LinkedList(ICollection c) {
-		Object[] m_obj = new Object[c.length()];
-		c.toArray(m_obj);
-		for (Object obj : m_obj) {
-			insertAt(size, obj);
-		}
+		ICollection.Iterator it = c.iterator();
+        while (it.hasNext()) {
+            insertAt(size, it.next());
+        }
 	}
 
 	@Override
@@ -116,8 +113,7 @@ public class LinkedList implements IList {
 			cell = cell.next;
 		}
 		Object elem = cell.value;
-		elem = niu;
-		cell.value = elem;
+		cell.value = niu;
 		return elem;
 	}
 
