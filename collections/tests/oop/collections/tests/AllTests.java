@@ -1,9 +1,13 @@
 package oop.collections.tests;
 
 import oop.collections.ICollection;
+
 import oop.collections.IList;
 import oop.utils.collections.ArrayList;
+import oop.utils.collections.HashTable;
 import oop.utils.collections.LinkedList;
+
+import oop.collections.IMap;
 
 public class AllTests {
 
@@ -20,7 +24,6 @@ public class AllTests {
 		}
 		System.out.println("\n");
 
-		
 		// TESTS LinkedList
 		System.out.println("=======" + "  Tests LinkedList  " + "=======\n");
 		passed = execTests(new LinkedList());
@@ -29,8 +32,16 @@ public class AllTests {
 		}
 		System.out.println("\n");
 
+		// TESTS Hashtable
+		System.out.println("=======" + "  Tests HashTable  " + "=======\n");
+		passed = runTestsIMap(new HashTable());
+		if (passed) {
+			nbTestsPassed++;
+		}
+		System.out.println("\n");
+
 		// All Tests passed ? ;)
-		if (passed && nbTestsPassed == 2) {
+		if (passed && nbTestsPassed == 3) {
 			System.out.println("==> All Tests : PASSED");
 		} else {
 			System.out.println("==> All Tests : FAILED");
@@ -39,7 +50,7 @@ public class AllTests {
 	}
 
 	static void initList(IList list) {
-		while(list.length() > 0) {
+		while (list.length() > 0) {
 			list.removeAt(0);
 		}
 	}
@@ -119,7 +130,7 @@ public class AllTests {
 
 		}
 		// enlève les nombres pairs
-		for (int j = 0; j < list.length() ; j++) {
+		for (int j = 0; j < list.length(); j++) {
 			if ((int) list.elementAt(j) % 2 == 0) {
 				list.removeAt(j);
 			}
@@ -190,6 +201,262 @@ public class AllTests {
 
 	static boolean execTests(IList list) {
 		if (test01(list) && test02(list) && test03(list) && test04(list)) {
+			System.out.println("\nTests : PASSED");
+			return true;
+		} else {
+			System.out.println("\nTests : FAILED");
+			return false;
+		}
+	}
+
+//////////////////////////      HASH TABLE    ///////////////////
+
+	static boolean testPutandGet(IMap map) {
+		boolean passed = true;
+		map.put("First", 1);
+		map.put("Second", 2);
+		map.put("Third", 3);
+		map.put("Fourth", 4);
+		map.put("Fifth", 5);
+		if (!map.get("First").equals(1) || !map.get("Second").equals(2) || !map.get("Third").equals(3)
+				|| !map.get("Fourth").equals(4) || !map.get("Fifth").equals(5)) {
+			passed = false;
+		}
+		MapIteratorTest(map);
+		if (!passed) {
+			System.out.println("--> TEST Put/Get : KO");
+			return false;
+		} else {
+			System.out.println("--> TEST Put/Get : OK");
+			return true;
+
+		}
+	}
+
+	static boolean testRemove(IMap map) {
+		boolean passed = true;
+		initMap(map);
+		for (int i = 0; i <= 5; i++) {
+			map.put(i, i * 10);
+		}
+		Object[] keys = new Object[map.length()];
+		map.keysToArray(keys);
+
+		// Enlève les clés qui sont pairs
+		for(Object key : keys) {
+			if((int) key%2==0) {
+				map.remove(key);
+			}
+		}
+		
+		if ((map.contains(0) || map.contains(2) || map.contains(4)) &&
+			 !map.contains(1) || !map.contains(3) || !map.contains(5)) {
+			passed = false;
+		}
+
+		MapIteratorTest(map);
+		if (!passed) {
+			System.out.println("--> TEST Remove : KO");
+			return false;
+		} else {
+			System.out.println("--> TEST Remove : OK");
+			return true;
+
+		}
+	}
+
+	static boolean testContains(IMap map) {
+		boolean passed = true;
+		initMap(map);
+		map.put("Ananas", 3.99);
+		map.put("Orange", 2.05);
+		map.put("Banana", 5);
+		map.put("Chocolate", 10.90);
+		map.put("Strawberries", 1);
+
+		if (map.contains("Vanilla") || !map.contains("Chocolate") || !map.contains("Orange")) {
+			passed = false;
+		}
+		
+		MapIteratorTest(map);
+		if (!passed) {
+			System.out.println("--> TEST Contains : KO");
+			return false;
+		} else {
+			System.out.println("--> TEST Contains : OK");
+			return true;
+
+		}
+	}
+
+	static boolean testKeyArray(IMap map) {
+		boolean passed = true;
+		initMap(map);
+		Object[] f1 = { "Mercedes", "Red-Bull", "Ferrari", "McLaren" };
+
+		map.put("Mercedes", "Russel");
+		map.put("Red-Bull", "Verstappen");
+		map.put("Ferrari", "Leclerc");
+		map.put("McLaren", "Norris");
+
+		Object[] keys = new Object[map.length()];
+		map.keysToArray(keys);
+
+		for (Object mark : f1) {
+			boolean in = false;
+			for (Object key : keys) {
+				if (key.equals(mark)) {
+					in = true;
+					break;
+				}
+				
+			}
+			if (!in) {
+				passed = false;
+				System.out.println("Missing key : " + mark);
+			}
+
+		}
+		keyIteratorTest(map);
+		if (!passed) {
+			System.out.println("--> TEST toKeyArray : KO");
+			return false;
+		} else {
+			System.out.println("--> TEST toKeyArray : OK");
+			return true;
+
+		}
+	}
+
+	static boolean testValueArray(IMap map) {
+		boolean passed = true;
+		initMap(map);
+		map.put("Mercedes", "Russel");
+		map.put("Red-Bull", "Verstappen");
+		map.put("Ferrari", "Leclerc");
+		map.put("McLaren", "Norris");
+
+		Object[] values = new Object[map.length()];
+		map.valuesToArray(values);
+
+		Object[] prices = { "Russel", "Verstappen", "Leclerc", "Norris" };
+		for (Object price : prices) {
+			boolean in = false;
+			for (Object value : values) {
+				if (value.equals(price)) {
+					in = true;
+					break;
+				}
+			}
+			if (!in) {
+				passed = false;
+			}
+		}
+		valueIteratorTest(map);
+		if (!passed) {
+			System.out.println("--> TEST toValueArray : KO");
+			return false;
+		} else {
+			System.out.println("--> TEST toValueArray : OK");
+			return true;
+
+		}
+	}
+
+	static boolean testArray(IMap map) {
+		boolean passed = true;
+		initMap(map);
+		map.put("Apple", 1.99);
+		map.put("Banana", 2.07);
+		map.put("Orange", 5.001);
+		map.put("Cherry", 631);
+
+		Object[] elems = new Object[map.length()];
+		map.toArray(elems);
+
+		Object[][] dico = { { "Apple", 1.99 }, { "Banana", 2.07 }, { "Orange", 5.001 }, { "Cherry", 631 } };
+
+		for(int i = 0 ; i < elems.length ; i++) {
+	     
+	        HashTable.Pair pair = (HashTable.Pair)elems[i];
+	        boolean in = false;
+
+	        for (Object[] tab : dico) {
+	            if (pair.key.equals(tab[0]) && pair.value.equals(tab[1])) {
+	                in = true;
+	                break;
+	            }
+	        }
+	        if(!in) {
+	        	passed = false;
+	        }
+	      }
+		MapIteratorTest(map);
+		if (!passed) {
+			System.out.println("--> TEST toArray : KO");
+			return false;
+		} else {
+			System.out.println("--> TEST toArray : OK");
+			return true;
+
+		}
+	}
+	
+	static void MapIteratorTest(IMap map) {
+		ICollection.Iterator it = map.iterator();
+		System.out.print("[ ");
+
+		while (it.hasNext()) {
+			HashTable.Pair pair = (HashTable.Pair) it.next();
+			System.out.print(pair.key + "=" + pair.value);
+			if (it.hasNext()) {
+				System.out.print(", ");
+
+			}
+		}
+		System.out.print(" ] ");
+	}
+	
+	static void keyIteratorTest(IMap map) {
+		ICollection.Iterator ki = map.keys();
+		System.out.print("[ ");
+
+		while (ki.hasNext()) {
+			System.out.print(ki.next());
+			if (ki.hasNext()) {
+				System.out.print(", ");
+
+			}
+		}
+		System.out.print(" ] ");
+	}
+
+	static void valueIteratorTest(IMap map) {
+		ICollection.Iterator vi = map.values();
+		System.out.print("[ ");
+
+		while (vi.hasNext()) {
+			System.out.print(vi.next());
+			if (vi.hasNext()) {
+				System.out.print(", ");
+
+			}
+		}
+		System.out.print(" ] ");
+	}
+
+
+	static void initMap(IMap map) {
+		Object[] keys = new Object[map.length()];
+		map.keysToArray(keys);
+		for(Object key : keys) {
+			map.remove(key);
+		}
+	}
+	
+	static boolean runTestsIMap(IMap map) {
+		if (testPutandGet(map) && testRemove(map) && testContains(map) && testKeyArray(map) && testValueArray(map)
+				&& testArray(map)) {
 			System.out.println("\nTests : PASSED");
 			return true;
 		} else {
