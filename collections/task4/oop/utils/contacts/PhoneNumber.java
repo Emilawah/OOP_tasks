@@ -28,7 +28,11 @@ public class PhoneNumber implements IPhoneNumber{
 
 	@Override
 	public String value() {
-		return "(" + codeCountry + ") " + number;
+		String value = number();
+		if(codeCountry != 0) {
+			value = "(" + country() + ") " + value;
+		}
+		return value;
 	}
 
 	@Override
@@ -41,15 +45,38 @@ public class PhoneNumber implements IPhoneNumber{
 		return number;
 	}
 
+
 	@Override
 	public boolean equals(IPhoneNumber o) {
-		if (o == null) {
-			return false;
-		}
-		if(o.country() == 0 || codeCountry == 0) {
-			return number.equals(o.number());
-		}
-		return codeCountry == o.country() && number.equals(o.number());
+	    if (o == null) return false;
+	    if (o.country() == 0 || this.codeCountry == 0) {
+	        return number.equals(o.number());
+	    }
+	    return codeCountry == o.country() && number.equals(o.number());
 	}
+
+	// Compatible avec la hashmap (qui compare avec les objects de map)
+	
+	@Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        
+        IPhoneNumber num = (IPhoneNumber) obj;
+
+        if (this.codeCountry == 0 || num.country() == 0) {
+            return number.equals(num.number());
+        }
+
+        return codeCountry == num.country() && number.equals(num.number());
+    }
+
+	@Override
+    public int hashCode() {
+        if (codeCountry == 0) {
+            return number.hashCode();
+        }
+        return codeCountry + number.hashCode();
+    }
+	
 
 }

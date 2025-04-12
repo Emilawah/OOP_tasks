@@ -83,17 +83,22 @@ public class Contacts implements IContacts{
 	
 	private boolean matches(String value, String filter) {
 	    if (filter.equals("*")) {
+	    	// renvoyer directement la chaine filtre
 	        return true;
 	    } else if (filter.startsWith("*") && filter.endsWith("*")) {
-	        String inner = filter.substring(1, filter.length() - 1);
-	        return value.contains(inner);
+	    	// String : "*hello*" -> renvoie la sous chaine "hello"
+	        String s = filter.substring(1, filter.length() - 1); 
+	        return value.contains(s);
 	    } else if (filter.startsWith("*")) {
-	        String suffix = filter.substring(1);
-	        return value.endsWith(suffix);
+	    	// String "*email" -> renvoie la sous chaine "email"
+	        String s1 = filter.substring(1);
+	        return value.endsWith(s1);
 	    } else if (filter.endsWith("*")) {
-	        String prefix = filter.substring(0, filter.length() - 1);
-	        return value.startsWith(prefix);
+	    	// String "phone*" -> renvoie la sous chaine "phone"
+	        String s2 = filter.substring(0, filter.length() - 1);
+	        return value.startsWith(s2);
 	    } else {
+	    	// renvoyer directement la chaine
 	        return value.equals(filter);
 	    }
 	}

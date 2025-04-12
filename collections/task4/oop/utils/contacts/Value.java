@@ -22,5 +22,10 @@ public class Value implements IValue {
 	public String value() {
 		return value;
 	}
+	
+	@Override
+	public String toString() {
+		return value;
+	}
 
 }

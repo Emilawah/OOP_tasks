@@ -1,5 +1,6 @@
 package oop.utils.contacts;
 import oop.contacts.IContacts.IName;
+
 import oop.contacts.IContacts.IValue;
 
 public class Name implements IName{
@@ -23,7 +24,7 @@ public class Name implements IName{
 
 	@Override
 	public String value() { 
-		return last + " " + first;
+		return toString();
 	}
 
 	@Override
@@ -35,5 +36,10 @@ public class Name implements IName{
 	public String first() {
 		return first;
 	}
+	
+	@Override
+    public String toString() {
+        return last + " " + first;
+    }
 
 }
