@@ -10,7 +10,7 @@ public class ArrayList implements IList {
 		
 		private int index = 0;
 		private Object[] m_obj;
-		private int size = 0;
+		private int size;
 		
 		public Iterator(ArrayList m_list){
 			this.m_obj = m_list.m_obj;
@@ -39,15 +39,16 @@ public class ArrayList implements IList {
 	 * Constructs an empty list.
 	 */
 	public ArrayList() {
-		this.m_obj = new Object[0];
-		this.size = m_obj.length;
+		this.m_obj = new Object[32];
+		this.size = 0;
 	}
 
 	/**
 	 * Constructs a list, initialized with the elements from the given array.
 	 */
 	public ArrayList(Object array[]) {
-		this.m_obj = array;
+		this.m_obj = new Object[array.length];
+		System.arraycopy(array, 0, this.m_obj, 0, array.length);
 		this.size = array.length;
 	}
 
@@ -55,8 +56,9 @@ public class ArrayList implements IList {
 	 * Constructs a list, initialized with the elements from the given list.
 	 */
 	public ArrayList(ArrayList v) {
-		this.m_obj = v.m_obj;
-		this.size = v.length();
+		this.m_obj = new Object[v.size];
+		System.arraycopy(v.m_obj, 0, this.m_obj, 0, v.size);
+		this.size = v.size;
 	}
 
 	/**
@@ -94,8 +96,7 @@ public class ArrayList implements IList {
 
 		} else {
 			Object elem = m_obj[index];
-			elem = niu;
-			m_obj[index] = elem;
+			m_obj[index] = niu;
 			return elem;
 		}
 	}
@@ -130,11 +131,6 @@ public class ArrayList implements IList {
 			for (int i = index; i < size - 1; i++) {
 				m_obj[i] = m_obj[i + 1];
 			}
-			Object[] new_array = new Object[m_obj.length-1];
-			for (int i = 0; i < size - 1; i++) {
-				new_array[i] = m_obj[i];
-			}
-			m_obj = new_array;
 			size--;
 			return obj_suppr;
 		}

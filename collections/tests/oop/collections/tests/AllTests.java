@@ -1,13 +1,17 @@
 package oop.collections.tests;
 
 import oop.collections.ICollection;
-
+import oop.collections.ICollection.Iterator;
 import oop.collections.IList;
 import oop.utils.collections.ArrayList;
 import oop.utils.collections.HashTable;
 import oop.utils.collections.LinkedList;
-
+import oop.utils.contacts.Contacts;
 import oop.collections.IMap;
+import oop.contacts.IContacts;
+import oop.contacts.IContacts.IContact;
+import oop.contacts.IContacts.IName;
+import oop.contacts.IContacts.IPhoneNumber;
 
 public class AllTests {
 
@@ -39,9 +43,17 @@ public class AllTests {
 			nbTestsPassed++;
 		}
 		System.out.println("\n");
+		
+		// TESTS Contatcs
+		System.out.println("=======" + "  Tests Contacts  " + "=======\n");
+		passed = runTestsIContact(new Contacts());
+		if (passed) {
+			nbTestsPassed++;
+		}
+		System.out.println("\n");
 
 		// All Tests passed ? ;)
-		if (passed && nbTestsPassed == 3) {
+		if (passed && nbTestsPassed == 4) {
 			System.out.println("==> All Tests : PASSED");
 		} else {
 			System.out.println("==> All Tests : FAILED");
@@ -243,14 +255,14 @@ public class AllTests {
 		map.keysToArray(keys);
 
 		// Enlève les clés qui sont pairs
-		for(Object key : keys) {
-			if((int) key%2==0) {
+		for (Object key : keys) {
+			if ((int) key % 2 == 0) {
 				map.remove(key);
 			}
 		}
-		
-		if ((map.contains(0) || map.contains(2) || map.contains(4)) &&
-			 !map.contains(1) || !map.contains(3) || !map.contains(5)) {
+
+		if ((map.contains(0) || map.contains(2) || map.contains(4)) && !map.contains(1) || !map.contains(3)
+				|| !map.contains(5)) {
 			passed = false;
 		}
 
@@ -277,7 +289,7 @@ public class AllTests {
 		if (map.contains("Vanilla") || !map.contains("Chocolate") || !map.contains("Orange")) {
 			passed = false;
 		}
-		
+
 		MapIteratorTest(map);
 		if (!passed) {
 			System.out.println("--> TEST Contains : KO");
@@ -309,7 +321,7 @@ public class AllTests {
 					in = true;
 					break;
 				}
-				
+
 			}
 			if (!in) {
 				passed = false;
@@ -376,21 +388,21 @@ public class AllTests {
 
 		Object[][] dico = { { "Apple", 1.99 }, { "Banana", 2.07 }, { "Orange", 5.001 }, { "Cherry", 631 } };
 
-		for(int i = 0 ; i < elems.length ; i++) {
-	     
-	        HashTable.Pair pair = (HashTable.Pair)elems[i];
-	        boolean in = false;
+		for (int i = 0; i < elems.length; i++) {
 
-	        for (Object[] tab : dico) {
-	            if (pair.key.equals(tab[0]) && pair.value.equals(tab[1])) {
-	                in = true;
-	                break;
-	            }
-	        }
-	        if(!in) {
-	        	passed = false;
-	        }
-	      }
+			HashTable.Pair pair = (HashTable.Pair) elems[i];
+			boolean in = false;
+
+			for (Object[] tab : dico) {
+				if (pair.key.equals(tab[0]) && pair.value.equals(tab[1])) {
+					in = true;
+					break;
+				}
+			}
+			if (!in) {
+				passed = false;
+			}
+		}
 		MapIteratorTest(map);
 		if (!passed) {
 			System.out.println("--> TEST toArray : KO");
@@ -401,7 +413,7 @@ public class AllTests {
 
 		}
 	}
-	
+
 	static void MapIteratorTest(IMap map) {
 		ICollection.Iterator it = map.iterator();
 		System.out.print("[ ");
@@ -416,7 +428,7 @@ public class AllTests {
 		}
 		System.out.print(" ] ");
 	}
-	
+
 	static void keyIteratorTest(IMap map) {
 		ICollection.Iterator ki = map.keys();
 		System.out.print("[ ");
@@ -445,15 +457,14 @@ public class AllTests {
 		System.out.print(" ] ");
 	}
 
-
 	static void initMap(IMap map) {
 		Object[] keys = new Object[map.length()];
 		map.keysToArray(keys);
-		for(Object key : keys) {
+		for (Object key : keys) {
 			map.remove(key);
 		}
 	}
-	
+
 	static boolean runTestsIMap(IMap map) {
 		if (testPutandGet(map) && testRemove(map) && testContains(map) && testKeyArray(map) && testValueArray(map)
 				&& testArray(map)) {
@@ -465,4 +476,162 @@ public class AllTests {
 		}
 	}
 
+	////////////////////// TEST CONTACT ///////////////////
+
+	static boolean testAddContact(IContacts c) {
+		boolean passed = true;
+		IName m_name = c.newName("STIEN", "Emilio");
+		IPhoneNumber m_phone = c.newPhoneNumber(33, "7 32 43 71 32");
+
+		c.add(m_name, m_phone);
+		if (!m_name.first().equals("Emilio")) {
+			passed = false;
+		}
+		if (!m_name.last().equals("STIEN")) {
+			passed = false;
+		}
+		if (!m_phone.number().equals("7 32 43 71 32")) {
+			passed = false;
+		}
+		if (!passed) {
+			System.out.println("--> TEST AddContact : KO");
+			return false;
+		} else {
+			System.out.println("--> TEST AddContact : OK");
+			return true;
+
+		}
+	}
+
+	static boolean testGetContact(IContacts c) {
+		boolean passed = true;
+
+		IName name = c.newName("Mbappe", "Kilian");
+		IPhoneNumber phone = c.newPhoneNumber(4, "12631786471");
+		c.add(name, phone);
+		IContact contact = c.get(phone);
+
+		if (contact == null) {
+			passed = false;
+		}
+		if (!contact.name().first().equals("Kilian")) {
+			passed = false;
+		}
+		if (!contact.name().last().equals("Mbappe")) {
+			passed = false;
+		}
+		if (!contact.phone().number().equals("12631786471")) {
+			passed = false;
+		}
+		if (contact.phone().country() != 4) {
+			passed = false;
+		}
+		if (!passed) {
+			System.out.println("--> TEST GetContact : KO");
+			return false;
+		} else {
+			System.out.println("--> TEST GetContact : OK");
+			return true;
+
+		}
+	}
+
+	static boolean testUpdateContact(IContacts c) {
+		boolean passed = true;
+
+		IName m_name = c.newName("LECLERC", "Charles");
+		IPhoneNumber m_phone = c.newPhoneNumber(33, "6 32 42 88 87");
+		
+		IContact m_contact = c.add(m_name, m_phone);
+
+		IName name2 = c.newName("VERSTAPPEN", "Charles");
+		IList names = new LinkedList();
+		names.insertAt(names.length(), "name"); // insertion cle "name"
+		
+		IList values = new LinkedList();
+		values.insertAt(values.length(), name2); // valeur de name : Charles VERSTAPPEN
+		c.update(m_contact, names, values); // on change les contacts données qu'on vient de créer
+
+		if (!m_contact.name().last().equals("VERSTAPPEN")) {
+			passed = false;
+		}
+		if (!m_contact.name().first().equals("Charles")) {
+			passed = false;
+		}
+		if (!passed) {
+			System.out.println("--> TEST UpdateContact : KO");
+			return false;
+		} else {
+			System.out.println("--> TEST UpdateContact : OK");
+			return true;
+
+		}
+	}
+
+	static boolean testSelectContact(IContacts c) {
+		boolean passed = true;
+
+		IName m_name1 = c.newName("STIEN", "Emilio");
+		IPhoneNumber m_phone1 = c.newPhoneNumber(33, "6 33 44 22 11");
+		c.add(m_name1, m_phone1);
+
+		IName m_name2 = c.newName("VERSTAPPEN", "Max");
+		IPhoneNumber m_phone2 = c.newPhoneNumber(5, "2324232411");
+		c.add(m_name2, m_phone2);
+
+		Iterator it = c.select("name", "*Emilio*");
+
+		if (!it.hasNext()) {
+			passed = false;
+		} else {
+			IContact contact = (IContact) it.next();
+			if (!contact.name().last().equals("STIEN")) {
+				passed = false;
+			}
+		}
+
+		if (!passed) {
+			System.out.println("--> TEST SelectContact : KO");
+			return false;
+		} else {
+			System.out.println("--> TEST SelectContact : OK");
+			return true;
+
+		}
+	}
+
+	static boolean testRemoveContact(IContacts c) {
+		boolean passed = true;
+
+		IName name = c.newName("HAMILTON", "Lewis");
+		IPhoneNumber phone = c.newPhoneNumber(2, "773661 31-31");
+		IContact contact = c.add(name, phone);
+		c.remove(contact);
+
+		IContact contact_remove = c.get(phone);
+
+		if (contact_remove != null) {
+			passed = false;
+		}
+
+		if (!passed) {
+			System.out.println("--> TEST RemoveContact : KO");
+			return false;
+		} else {
+			System.out.println("--> TEST RemoveContact : OK");
+			return true;
+
+		}
+	}
+
+	static boolean runTestsIContact(IContacts c) {
+		if (testAddContact(c) && testGetContact(c) && testUpdateContact(c) && testSelectContact(c)
+				&& testRemoveContact(c)) {
+			System.out.println("\nTests : PASSED");
+			return true;
+		} else {
+			System.out.println("\nTests : FAILED");
+			return false;
+		}
+	}
 }
