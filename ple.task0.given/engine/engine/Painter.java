@@ -1,6 +1,7 @@
 package engine;
 
 import oop.graphics.Canvas;
+
 import oop.graphics.Graphics;
 import oop.tasks.Task;
 
@@ -13,24 +14,27 @@ public class Painter implements Runnable {
     m_nrows = nr;
     m_ncols = nc;
     m_canvas = canvas;
-    throw new RuntimeException("NYI");
+    m_canvas.set(new PaintListener());
   }
 
   @Override
   public void run() {
-    throw new RuntimeException("NYI");
+	  m_canvas.repaint();
+	  Task task = Task.task();
+	  task.post(this, 50);
   }
 
   class PaintListener implements Canvas.PaintListener {
 
     @Override
     public void paint(Canvas canvas, Graphics g) {
-      throw new RuntimeException("NYI");
+    	m_game.paint(canvas,g.getGraphics2D());
     }
 
     @Override
     public void visible(Canvas canvas) {
-      throw new RuntimeException("NYI");
+    	m_game = new Game(canvas,m_nrows,m_ncols);
+    	run();
     }
 
     @Override

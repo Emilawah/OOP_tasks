@@ -19,6 +19,8 @@ public class Model {
     m_nrows = nr;
     m_grid = new Entity[nr][nc];
     m_entities = new LinkedList<Entity>();
+    m_player = new Player(this, 0, 0, 90);
+    addAt(m_player);
   }
 
   /* 
@@ -27,7 +29,7 @@ public class Model {
    * to this model.
    */
   void addAt(Entity e) {
-    throw new RuntimeException("NYI");
+	  m_entities.add(e);
   }
 
   /*
@@ -36,18 +38,45 @@ public class Model {
    * to its current location.
    */
   void move(Entity e, int nrows, int ncols) {
-    throw new RuntimeException("NYI");
+	  
+	int row_old = e.m_row;
+	int col_old = e.m_col;
+	
+	  
+    if(this.m_conf.tore) {
+    	e.m_row += nrows;
+    	e.m_col += ncols;
+    	e.m_row = normalize(e.m_row, nrows());
+    	e.m_col = normalize(e.m_col, ncols());
+    }
+    else {
+    	e.m_row += nrows;
+    	e.m_col += ncols;
+    	if(e.m_row >= nrows() || e.m_col >= ncols() || e.m_row < 0 || e.m_col < 0) {
+    		// si les nouvelles coordonées dépassent la taille du "terrain", il retourne au point de départ
+    		e.m_row = row_old;
+        	e.m_col = col_old;
+    	}
+    	
+    }
+  
   }
 
   /* 
    * Normalize a number back to the range [0,lengh[
    */
   private int normalize(int n, int length) {
-    throw new RuntimeException("NYI");
+	  while(n >= length) {
+		  n = n - length;
+	  }
+	  while(n < 0) {
+		  n = n + length;
+	  }
+	  return n;
   }
 
   public Entity entity(int r, int c) {
-    throw new RuntimeException("NYI");
+    return m_grid[r][c];
   }
 
   public Iterator<Entity> entities() {

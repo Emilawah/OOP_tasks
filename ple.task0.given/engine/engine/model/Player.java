@@ -2,6 +2,8 @@ package engine.model;
 
 public class Player extends Entity {
 
+ 
+	
   public Player(Model m, int x, int y, int o) {
     super(m, x, y, o);
   }
@@ -10,28 +12,28 @@ public class Player extends Entity {
    * Move this entity up one row.
    */
   public void up() {
-    throw new RuntimeException("NYI");
+    move(-1, 0);
   }
 
   /*
    * Move this entity down one row.
    */
   public void down() {
-    throw new RuntimeException("NYI");
+    move(1,0);
   }
 
   /*
    * Move this entity left one column.
    */
   public void left() {
-    throw new RuntimeException("NYI");
+    move(0,-1);
   }
 
   /*
    * Move this entity right one column.
    */
   public void right() {
-    throw new RuntimeException("NYI");
+    move(0,1);
   }
 
 }
