@@ -2,9 +2,10 @@ package engine.controller;
 
 import engine.model.Model;
 
+
 import engine.view.View;
 import oop.graphics.Canvas;
-import oop.streams.VirtualKeyCodes;
+import oop.graphics.VirtualKeyCodes;
 
 public class Controller {
 	private Canvas m_canvas;
