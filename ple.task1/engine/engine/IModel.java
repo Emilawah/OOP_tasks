@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import engine.model.Entity;
 import engine.model.Player;
+import engine.view.View;
 
 public interface IModel {
 	int ncols();
@@ -23,4 +24,10 @@ public interface IModel {
 	Config config();
 
 	void config(Config c);
+	
+	public float getDim();
+	public void moveM(float x, float y);
+	void setView(View v);
+	public float getPx(Player p);
+	public float getPy(Player p);
 }

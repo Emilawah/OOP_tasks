@@ -31,6 +31,7 @@ public class Game {
     
     m_view = new View0(canvas, m_model);
     m_controller = new Controller0(canvas, m_model, m_view);
+    m_model.setView(m_view);
     
   }
 

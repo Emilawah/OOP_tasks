@@ -20,11 +20,12 @@ public abstract class View implements IView {
 	protected IModel m_model;
 	protected int mouseX;
 	protected int mouseY;
+	protected int sizeCell;
 	protected Player p;
 
-	protected int zoom=1;
-	protected int gx=1;
-	protected int gy=1;
+	protected float zoom=1;
+	protected int gx=0;
+	protected int gy=0;
 	
 	
 	
@@ -44,45 +45,56 @@ public abstract class View implements IView {
 		g.scale(zoom, zoom);
 	}
 
+
+	
 	public void debug(Canvas canvas, Graphics2D g) {
+		
+		m_model.setView(this);
+		
 		int width = canvas.getWidth();
 		int height = canvas.getHeight();
 
+		
 		g.setColor(java.awt.Color.GRAY);
 		g.fillRect(0, 0, width, height);
 
 		// nb lignes
 		int nrow = m_model.nrows();
 		int ncol = m_model.ncols();
-
-		int sizeCell = Math.min(width / ncol, height / nrow);
+		
+		sizeCell = Math.min(width / ncol, height / nrow);
 
 		int gridWidth = sizeCell * ncol;
 		int gridHeight = sizeCell * nrow;
 
-		int line = Math.max(1, sizeCell / 10);
+		//On sauvegarde l'état courant 
+		AffineTransform saved = g.getTransform();
+		g.setTransform(new AffineTransform());
 
 		g.setColor(java.awt.Color.BLACK);
 
 		for (int col = 0; col <= ncol; col++) {
-			int x = col * sizeCell;
-			g.fillRect(0, x, gridWidth+line, line);
+			int x = (int) (col * sizeCell);
+			g.drawLine(x, 0, x,height );
+			
 		}
 
 		for (int row = 0; row <= nrow; row++) {
-			int y = row * sizeCell;
-			g.fillRect(y, 0, line, gridHeight+line);
+			int y = (int) (row * sizeCell);
+			g.drawLine(0, y, width, y);
 		}
+		// on restaure (pour ne pas zoomer les lignes )
+		g.setTransform(saved);
 	}
 
 	public void zoomOut() {
 		if(zoom>1)
-		zoom--;
+		zoom-=0.2;
 		
 	}
 	public void zoomIn() {
 		if(zoom<5)
-		zoom++;
+		zoom+=0.2;
 		
 	}
 	public void resetZoom() {
@@ -93,6 +105,10 @@ public abstract class View implements IView {
 	public void translate(int x,int y) {
 		gx=gx+x;
 		gy=gy+y;
+	}
+	
+	public float getSizeCell() {
+		return sizeCell;
 	}
 	
 	protected void paintPlayer(Graphics2D g, Player p, int x, int y, Polygon pg) {

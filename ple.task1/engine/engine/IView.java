@@ -18,5 +18,7 @@ public interface IView {
 	
 	public void translate(int x,int y);
 	
+	public float getSizeCell();
+	
 }
 

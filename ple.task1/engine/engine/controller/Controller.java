@@ -53,26 +53,26 @@ public abstract class Controller implements IController {
 				m_control = true;
 				break;
 			case VirtualKeyCodes.VK_LEFT:
-				if(m_control) {
+				if (m_control) {
 					m_view.translate(-5, 0);
 				}
 				break;
 			case VirtualKeyCodes.VK_RIGHT:
-				if(m_control) {
+				if (m_control) {
 					m_view.translate(5, 0);
 				}
 				break;
 			case VirtualKeyCodes.VK_UP:
-				if(m_control) {
+				if (m_control) {
 					m_view.translate(0, -5);
 				}
 				break;
 			case VirtualKeyCodes.VK_DOWN:
-				if(m_control) {
+				if (m_control) {
 					m_view.translate(0, 5);
 				}
 				break;
-				
+
 			}
 			Controller.this.pressed(canvas, keyCode, keyChar);
 		}
@@ -107,35 +107,35 @@ public abstract class Controller implements IController {
 			case '=':
 				m_view.resetZoom();
 				break;
-						
+
 			default:
 				Controller.this.typed(canvas, keyChar);
 				break;
 			}
 		}
 	}
-		class MouseListener implements Canvas.MouseListener {
 
-			@Override
-			public void moved(Canvas canvas, int px, int py) {
+	class MouseListener implements Canvas.MouseListener {
 
-				// inform the model about the current focus,
-				// that is, where the mouse is pointing at in the world.
+		@Override
+		public void moved(Canvas canvas, int px, int py) {
 
-				Controller.this.moved(canvas, px, py);
+			// inform the model about the current focus,
+			// that is, where the mouse is pointing at in the world.
 
-			}
+			Controller.this.moved(canvas, px, py);
 
-			@Override
-			public void pressed(Canvas canvas, int bno, int x, int y) {
-				// nothing to do here.
-			}
-
-			@Override
-			public void released(Canvas canvas, int bno, int x, int y) {
-				// nothing to do here.
-			}
 		}
 
+		@Override
+		public void pressed(Canvas canvas, int bno, int x, int y) {
+			// nothing to do here.
+		}
+
+		@Override
+		public void released(Canvas canvas, int bno, int x, int y) {
+			// nothing to do here.
+		}
 	}
 
+}

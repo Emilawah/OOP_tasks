@@ -43,16 +43,26 @@ public class View0 extends View {
 		
 		debug(canvas, g);
 		
-		Polygon triangle = new Polygon();
 
-		triangle.addPoint(0, -sizeCell / 2);
-		triangle.addPoint(-sizeCell / 2, sizeCell / 2);
-		triangle.addPoint(sizeCell / 2, sizeCell / 2);
+		int cellSize = sizeCell;
+		
+		int l = (int)(cellSize * 0.6);  // largeur 
+		int h = (int)(cellSize * 0.7);  // hauteur 
+		
+		// Triangle centré autour de (0,0)
+		Polygon triangle = new Polygon();
+		triangle.addPoint(0, -h / 2);     // sommet (haut, pointe du triangle)
+		triangle.addPoint(-l / 2, h / 2); // coin bas gauche
+		triangle.addPoint(l / 2, h / 2);  // coin bas droit
+
 
 		p = m_model.player();
 		g.setColor(java.awt.Color.YELLOW);
 
-		paintPlayer(g, p, p.col() * sizeCell + sizeCell / 2, p.row() * sizeCell + sizeCell / 2, triangle);
+		int pixelx = (int)p.getX();
+		int pixely = (int)p.getY();
+		
+		paintPlayer(g, p, pixelx, pixely, triangle);
 	}
 
 

@@ -3,66 +3,108 @@ package game;
 import engine.IModel;
 import engine.IView;
 import engine.controller.Controller;
+import engine.utils.Utils;
 import oop.graphics.Canvas;
+import oop.runtime.Task;
 
-public class Controller0 extends Controller{
+public class Controller0 extends Controller {
 
+	private boolean flag =true;
+	private int mouseX;
+	private int mouseY;
+	
 	public Controller0(Canvas canvas, IModel model, IView view) {
 		super(canvas, model, view);
 	}
 
 	@Override
 	protected void pressed(Canvas canvas, int keyCode, char keyChar) {
-		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_LEFT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_LEFT) && m_shift) {
-			m_model.player().rotate(-90);		
+		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_LEFT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_LEFT)
+				&& m_shift) {
+			m_model.player().rotate(-90);
 		}
-		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_RIGHT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_RIGHT) && m_shift) {
-			m_model.player().rotate(90);		
+		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_RIGHT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_RIGHT)
+				&& m_shift) {
+			m_model.player().rotate(90);
 		}
-		
-		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_LEFT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_LEFT) && !m_shift && !m_control){
+
+		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_LEFT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_LEFT)
+				&& !m_shift && !m_control) {
 			m_model.player().left();
 		} else if ((keyCode == oop.graphics.VirtualKeyCodes.VK_RIGHT
-				|| keyCode == oop.graphics.VirtualKeyCodes.VK_KP_RIGHT)&& !m_shift && !m_control) {
+				|| keyCode == oop.graphics.VirtualKeyCodes.VK_KP_RIGHT) && !m_shift && !m_control) {
 			m_model.player().right();
-		} else if ((keyCode == oop.graphics.VirtualKeyCodes.VK_UP
-				|| keyCode == oop.graphics.VirtualKeyCodes.VK_KP_UP) && !m_control) {
+		} else if ((keyCode == oop.graphics.VirtualKeyCodes.VK_UP || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_UP)
+				&& !m_control) {
 			m_model.player().up();
 		} else if ((keyCode == oop.graphics.VirtualKeyCodes.VK_DOWN
-				|| keyCode == oop.graphics.VirtualKeyCodes.VK_KP_DOWN)&& !m_control) {
+				|| keyCode == oop.graphics.VirtualKeyCodes.VK_KP_DOWN) && !m_control) {
 			m_model.player().down();
 		}
-		
+
 	}
 
 	@Override
 	protected void released(Canvas canvas, int keyCode, char keyChar) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void typed(Canvas canvas, char keyChar) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void pressed(Canvas canvas, int bno, int x, int y) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void released(Canvas canvas, int bno, int x, int y) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void moved(Canvas canvas, int px, int py) {
-		m_view.focus(px, py);
+		this.mouseX = px;
+		this.mouseY = py;
+		
+		if(flag) {
+			Task.task().post(new Runnable() {
+				@Override
+				public void run() {
+					flag=false;
+					m_model.player().face(angle_found(canvas));
+					Task.task().post(this);
+				}
+				
+			});
+			
+		}
+		
 	}
 	
-	
+	private int angle_found(Canvas canvas) {
+		
+		// Position x y du joueur
+		float x0 = m_model.getPx(m_model.player());
+        float y0 = m_model.getPy(m_model.player());
+
+        float x = (mouseX*m_model.getDim())/m_view.getSizeCell();
+        float y = (mouseY*m_model.getDim())/m_view.getSizeCell();
+
+        // calcul distance entre joueur et le point souris
+        float dx = x-x0;
+        float dy = y-y0;
+        //System.out.println("temp_x: "+temp_x);
+        //System.out.println("temp_y: "+temp_y);
+        int coord = Utils.theta(dx, dy);
+        coord = coord + 90;
+        return coord;
+	}
+
 }

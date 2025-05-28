@@ -1,40 +1,52 @@
 package engine.model;
 
-
 public class Player extends Entity {
+	protected float px;
+	protected float py;
 
- 
+	public Player(Model m_model, int x, int y, int o) {
+		super(m_model, x, y, o);
+		px = m_model.getDim() * x;
+		py = m_model.getDim() * y;
+	}
+
+	public float getX() {
+		return px;
+	}
 	
-  public Player(Model m_model, int x, int y, int o) {
-    super(m_model, x, y, o);
-  }
+	public float getY() {
+		return py;
+	}
+	
+	/*
+	 * Move this entity up one row.
+	 */
+	public void up() {
+		move(0, -10f);
+	}
 
-  /*
-   * Move this entity up one row.
-   */
-  public void up() {
-    move(-1, 0);
-  }
+	/*
+	 * Move this entity down one row.
+	 */
+	public void down() {
+		move(0, 10f);
+	}
 
-  /*
-   * Move this entity down one row.
-   */
-  public void down() {
-    move(1,0);
-  }
+	/*
+	 * Move this entity left one column.
+	 */
+	public void left() {
+		move(-10f, 0);
+	}
 
-  /*
-   * Move this entity left one column.
-   */
-  public void left() {
-    move(0,-1);
-  }
+	/*
+	 * Move this entity right one column.
+	 */
+	public void right() {
+		move(10f, 0);
+	}
 
-  /*
-   * Move this entity right one column.
-   */
-  public void right() {
-    move(0,1);
-  }
-
+	public void move(float x , float y) {
+		m_model.moveM(x, y);
+	}
 }
