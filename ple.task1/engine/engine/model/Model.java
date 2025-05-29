@@ -16,7 +16,7 @@ public class Model implements IModel {
 	private List<Entity> m_entities;
 	private IView m_view;
 	private Config m_conf;
-	private float dimCell = 10;
+	private float dimCell = 1;
 
 	public Model(int nr, int nc) {
 		m_ncols = nc;
@@ -31,7 +31,9 @@ public class Model implements IModel {
 	 */
 	void addAt(Entity e) {
 		m_entities.add(e);
-		m_grid[e.row()][e.col()] = e;
+        if (e.m_row >= 0 && e.m_row < m_nrows && e.m_col >= 0 && e.m_col < m_ncols) {
+            m_grid[e.m_row][e.m_col] = e;
+        }
 		
 		if (e instanceof Player && m_player == null) {
 			m_player = (Player) e;
@@ -68,10 +70,12 @@ public class Model implements IModel {
 
 	public void moveM(float x, float y) {
 
+		// On déplace le joueur 
 		float px = m_player.px + x;
 		float py = m_player.py + y;
 
 		if (m_conf.tore) {
+			// normaliser en mètres
 			px = normalize(px, m_ncols * dimCell);
 			py = normalize(py, m_nrows * dimCell);
 		} else {
@@ -84,8 +88,8 @@ public class Model implements IModel {
 				py = m_player.py;
 			}
 		}
-		int newRow = (int) (px/dimCell);
-		int newCol = (int) (py/dimCell);
+		int newRow = (int) (py/dimCell);
+		int newCol = (int) (px/dimCell);
 
 		// verifies si le player a bougé de case ou non
 		if (newRow != m_player.row() || newCol != m_player.col()) {

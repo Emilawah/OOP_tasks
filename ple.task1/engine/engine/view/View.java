@@ -23,13 +23,10 @@ public abstract class View implements IView {
 	protected int sizeCell;
 	protected Player p;
 
-	protected float zoom=1;
-	protected int gx=0;
-	protected int gy=0;
-	
-	
-	
-	
+	protected float zoom = 1;
+	protected int graphX = 0;
+	protected int graphY = 0;
+
 	protected View(Canvas canvas, IModel model) {
 		m_canvas = canvas;
 		m_model = model;
@@ -45,72 +42,74 @@ public abstract class View implements IView {
 		g.scale(zoom, zoom);
 	}
 
-
-	
 	public void debug(Canvas canvas, Graphics2D g) {
-		
+
 		m_model.setView(this);
-		
+
 		int width = canvas.getWidth();
 		int height = canvas.getHeight();
-
-		
-		g.setColor(java.awt.Color.GRAY);
-		g.fillRect(0, 0, width, height);
-
-		// nb lignes
 		int nrow = m_model.nrows();
 		int ncol = m_model.ncols();
 		
-		sizeCell = Math.min(width / ncol, height / nrow);
+		g.setColor(java.awt.Color.GRAY);
+		g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-		int gridWidth = sizeCell * ncol;
-		int gridHeight = sizeCell * nrow;
-
-		//On sauvegarde l'état courant 
 		AffineTransform saved = g.getTransform();
 		g.setTransform(new AffineTransform());
+		
+		sizeCell = Math.min(width / ncol, height / nrow);
 
-		g.setColor(java.awt.Color.BLACK);
+		drawGrid(canvas, g);
 
-		for (int col = 0; col <= ncol; col++) {
-			int x = (int) (col * sizeCell);
-			g.drawLine(x, 0, x,height );
-			
-		}
-
-		for (int row = 0; row <= nrow; row++) {
-			int y = (int) (row * sizeCell);
-			g.drawLine(0, y, width, y);
-		}
-		// on restaure (pour ne pas zoomer les lignes )
 		g.setTransform(saved);
 	}
 
 	public void zoomOut() {
-		if(zoom>1)
-		zoom-=0.2;
-		
+		if (zoom > 1)
+			zoom -= 0.2;
+
 	}
+
 	public void zoomIn() {
-		if(zoom<5)
-		zoom+=0.2;
-		
+		if (zoom < 5)
+			zoom += 0.2;
+
 	}
+
 	public void resetZoom() {
-		zoom=1;
-		gx = 0;
-		gy = 0;
+		zoom = 1;
+		graphX = 0;
+		graphY = 0;
 	}
-	public void translate(int x,int y) {
-		gx=gx+x;
-		gy=gy+y;
+
+	public void translate(int x, int y) {
+		graphX = graphX + x;
+		graphY = graphY + y;
 	}
-	
+
 	public float getSizeCell() {
 		return sizeCell;
 	}
-	
+
+	protected void drawGrid(Canvas canvas, Graphics2D g) {
+
+		g.setColor(java.awt.Color.BLACK);
+
+		float cellZoomed = sizeCell * zoom;
+		
+		for (int col = 0; col <= m_model.ncols(); col++) {
+			int x = (int) (col * cellZoomed+graphX);
+			g.drawLine(x, 0, x, canvas.getHeight());
+
+		}
+
+		for (int row = 0; row <= m_model.nrows(); row++) {
+			int y = (int) (row * cellZoomed+graphY);
+			g.drawLine(0, y, canvas.getWidth(), y);
+		}
+		
+	}
+
 	protected void paintPlayer(Graphics2D g, Player p, int x, int y, Polygon pg) {
 		int d = p.orientation();
 		double rot = Math.toRadians(d);

@@ -70,41 +70,41 @@ public class Controller0 extends Controller {
 
 	@Override
 	protected void moved(Canvas canvas, int px, int py) {
-		this.mouseX = px;
-		this.mouseY = py;
-		
-		if(flag) {
-			Task.task().post(new Runnable() {
-				@Override
-				public void run() {
-					flag=false;
-					m_model.player().face(angle_found(canvas));
-					Task.task().post(this);
-				}
-				
-			});
-			
-		}
+//		this.mouseX = px;
+//		this.mouseY = py;
+//		
+//		if(flag) {
+//			Task.task().post(new Runnable() {
+//				@Override
+//				public void run() {
+//					flag=false;
+//					m_model.player().face(angle_found(canvas));
+//					Task.task().post(this);
+//				}
+//				
+//			});
+//			
+//		}
 		
 	}
 	
-	private int angle_found(Canvas canvas) {
-		
-		// Position x y du joueur
-		float x0 = m_model.getPx(m_model.player());
-        float y0 = m_model.getPy(m_model.player());
-
-        float x = (mouseX*m_model.getDim())/m_view.getSizeCell();
-        float y = (mouseY*m_model.getDim())/m_view.getSizeCell();
-
-        // calcul distance entre joueur et le point souris
-        float dx = x-x0;
-        float dy = y-y0;
-        //System.out.println("temp_x: "+temp_x);
-        //System.out.println("temp_y: "+temp_y);
-        int coord = Utils.theta(dx, dy);
-        coord = coord + 90;
-        return coord;
-	}
+//	private int angle_found(Canvas canvas) {
+//		
+//		// Position x y du joueur
+//		float x0 = m_model.getPx(m_model.player());
+//        float y0 = m_model.getPy(m_model.player());
+//
+//        float x = (mouseX*m_model.getDim())/m_view.getSizeCell();
+//        float y = (mouseY*m_model.getDim())/m_view.getSizeCell();
+//
+//        // calcul distance entre joueur et le point souris
+//        float dx = x-x0;
+//        float dy = y-y0;
+//        //System.out.println("temp_x: "+temp_x);
+//        //System.out.println("temp_y: "+temp_y);
+//        int coord = Utils.theta(dx, dy);
+//        coord = coord + 90;
+//        return coord;
+//	}
 
 }
