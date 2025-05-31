@@ -83,6 +83,7 @@ public class View0 extends View {
 		int pixelx = (int) ((p.getX() / m_model.getDim()) * getSizeCell());
 		int pixely = (int) ((p.getY() / m_model.getDim()) * getSizeCell());
 
+
 		paintPlayer(g, p, pixelx, pixely, triangle);
 	}
 

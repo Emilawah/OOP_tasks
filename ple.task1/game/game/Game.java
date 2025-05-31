@@ -22,12 +22,12 @@ public class Game {
     this.m_canvas = canvas;
     
     IModel.Config conf = new Config();
-    conf.tore = true;
+    conf.tore = true;;
     
     m_model = new Model(nrows, ncols);
     m_model.config(conf); // configure before adding entities
     
-    new Player(m_model, 5, 5, 0);
+    new Player(m_model, 5, 5, 90);
     
     m_view = new View0(canvas, m_model);
     m_controller = new Controller0(canvas, m_model, m_view);

@@ -28,6 +28,4 @@ public interface IModel {
 	public float getDim();
 	public void moveM(float x, float y);
 	void setView(View v);
-	public float getPx(Player p);
-	public float getPy(Player p);
 }

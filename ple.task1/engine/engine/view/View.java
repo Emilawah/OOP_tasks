@@ -44,21 +44,19 @@ public abstract class View implements IView {
 
 	public void debug(Canvas canvas, Graphics2D g) {
 
-		m_model.setView(this);
-
 		int width = canvas.getWidth();
 		int height = canvas.getHeight();
 		int nrow = m_model.nrows();
 		int ncol = m_model.ncols();
 		
+		
 		g.setColor(java.awt.Color.GRAY);
 		g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-		AffineTransform saved = g.getTransform();
-		g.setTransform(new AffineTransform());
-		
 		sizeCell = Math.min(width / ncol, height / nrow);
-
+		
+		AffineTransform saved = g.getTransform();
+		
 		drawGrid(canvas, g);
 
 		g.setTransform(saved);
@@ -91,21 +89,36 @@ public abstract class View implements IView {
 		return sizeCell;
 	}
 
+	public float getZoom() {
+		return zoom;
+	}
+	
+	public float getGraphX() {
+		return graphX;
+	}
+	
+	public float getGraphY() {
+		return graphY;
+	}
+	
+	
 	protected void drawGrid(Canvas canvas, Graphics2D g) {
 
 		g.setColor(java.awt.Color.BLACK);
 
-		float cellZoomed = sizeCell * zoom;
+		int gridWidth = (int) (m_model.ncols() * sizeCell);
+		int gridHeight = (int) (m_model.nrows() * sizeCell);
+
 		
 		for (int col = 0; col <= m_model.ncols(); col++) {
-			int x = (int) (col * cellZoomed+graphX);
-			g.drawLine(x, 0, x, canvas.getHeight());
+			int x = (int) (col * sizeCell);
+			g.drawLine(x, 0, x, gridHeight);
 
 		}
 
 		for (int row = 0; row <= m_model.nrows(); row++) {
-			int y = (int) (row * cellZoomed+graphY);
-			g.drawLine(0, y, canvas.getWidth(), y);
+			int y = (int) (row * sizeCell);
+			g.drawLine(0, y, gridWidth, y);
 		}
 		
 	}

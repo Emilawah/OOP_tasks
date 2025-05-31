@@ -3,7 +3,7 @@ package engine.model;
 public class Player extends Entity {
 	protected float px;
 	protected float py;
-	protected float speed_meter = 2; // 1 déplacement -> vaut le nombre de mètres parcouru
+	protected float speed_meter = 1; // 1 déplacement -> vaut le nombre de mètres parcouru
 	
 	public Player(Model m_model, int x, int y, int o) {
 		super(m_model, x, y, o);

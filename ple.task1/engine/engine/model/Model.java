@@ -16,7 +16,7 @@ public class Model implements IModel {
 	private List<Entity> m_entities;
 	private IView m_view;
 	private Config m_conf;
-	private float dimCell = 1;
+	private float dimCell = 4;
 
 	public Model(int nr, int nc) {
 		m_ncols = nc;
@@ -80,8 +80,8 @@ public class Model implements IModel {
 			py = normalize(py, m_nrows * dimCell);
 		} else {
 
-			if (m_player.px >= m_ncols * dimCell || m_player.py >= m_nrows * dimCell || m_player.py < 0
-					|| m_player.px < 0) {
+			if (px >= m_ncols * dimCell || py >= m_nrows * dimCell || py < 0
+					|| px < 0) {
 				// si les nouvelles coordonées dépassent la taille du "terrain", il retourne au
 				// point de départ
 				px = m_player.px;
@@ -96,6 +96,7 @@ public class Model implements IModel {
 			if (m_grid[newRow][newCol] != null)
 				return;
 		}
+		// on passe l'ancienne case du joueur à null 
 		m_grid[m_player.m_row][m_player.m_col] = null;
 		
 		m_player.m_row = newRow;
@@ -103,6 +104,7 @@ public class Model implements IModel {
 		m_player.px = px;
 		m_player.py = py;
 		
+		// on met la position du joueur dans la nouvelle case de la grille
 		m_grid[newRow][newCol] = m_player;
 	}
 
@@ -171,16 +173,6 @@ public class Model implements IModel {
 		return dimCell;
 	}
 
-	public float getPx(Player p) {
-		float temp = (p.getX() * dimCell) / m_view.getSizeCell();
-		System.out.println("x: " + temp);
-		return temp;
-	}
 
-	public float getPy(Player p) {
-		float temp = (p.getY() * dimCell) / m_view.getSizeCell();
-		System.out.println("y: " + temp);
-		return temp;
-	}
 
 }
