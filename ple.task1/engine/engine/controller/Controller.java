@@ -129,12 +129,12 @@ public abstract class Controller implements IController {
 
 		@Override
 		public void pressed(Canvas canvas, int bno, int x, int y) {
-			// nothing to do here.
+			Controller.this.pressed(canvas, bno, x, y);
 		}
 
 		@Override
 		public void released(Canvas canvas, int bno, int x, int y) {
-			// nothing to do here.
+			Controller.this.released(canvas, bno, x, y);
 		}
 	}
 

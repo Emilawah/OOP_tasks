@@ -4,6 +4,7 @@ public class Player extends Entity {
 	protected float px;
 	protected float py;
 	protected float speed_meter = 1; // 1 déplacement -> vaut le nombre de mètres parcouru
+	private boolean isMoving;
 	
 	public Player(Model m_model, int x, int y, int o) {
 		super(m_model, x, y, o);
@@ -47,6 +48,43 @@ public class Player extends Entity {
 		move(speed_meter, 0);
 	}
 
+	public void startMove() {
+		isMoving = true;
+	}
+	
+	public void stopMove() {
+		isMoving = false;
+	}
+	
+	public boolean isMoving() {
+		return isMoving;
+	}
+	
+	public void movePlayer() {
+		if(isMoving) {
+			float dx=0,dy=0;
+			switch(m_orientation) {
+			case 0:
+				dy = -speed_meter;
+				break;
+			case 90:
+				dx = speed_meter;
+				break;
+			case 180:
+				dy = speed_meter;
+				break;
+			case 270:
+				dx = -speed_meter;
+				break;
+			case 360:
+				dy = -speed_meter;
+				break;
+
+			}
+			m_model.moveM(dx,dy);
+		}
+	}
+	
 	public void move(float x , float y) {
 		m_model.moveM(x, y);
 	}

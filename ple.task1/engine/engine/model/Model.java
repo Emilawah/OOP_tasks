@@ -31,10 +31,10 @@ public class Model implements IModel {
 	 */
 	void addAt(Entity e) {
 		m_entities.add(e);
-        if (e.m_row >= 0 && e.m_row < m_nrows && e.m_col >= 0 && e.m_col < m_ncols) {
-            m_grid[e.m_row][e.m_col] = e;
-        }
-		
+		if (e.m_row >= 0 && e.m_row < m_nrows && e.m_col >= 0 && e.m_col < m_ncols) {
+			m_grid[e.m_row][e.m_col] = e;
+		}
+
 		if (e instanceof Player && m_player == null) {
 			m_player = (Player) e;
 		}
@@ -70,7 +70,7 @@ public class Model implements IModel {
 
 	public void moveM(float x, float y) {
 
-		// On déplace le joueur 
+		// On déplace le joueur
 		float px = m_player.px + x;
 		float py = m_player.py + y;
 
@@ -80,30 +80,29 @@ public class Model implements IModel {
 			py = normalize(py, m_nrows * dimCell);
 		} else {
 
-			if (px >= m_ncols * dimCell || py >= m_nrows * dimCell || py < 0
-					|| px < 0) {
+			if (px >= m_ncols * dimCell || py >= m_nrows * dimCell || py < 0 || px < 0) {
 				// si les nouvelles coordonées dépassent la taille du "terrain", il retourne au
 				// point de départ
 				px = m_player.px;
 				py = m_player.py;
 			}
 		}
-		int newRow = (int) (py/dimCell);
-		int newCol = (int) (px/dimCell);
+		int newRow = (int) (py / dimCell);
+		int newCol = (int) (px / dimCell);
 
 		// verifies si le player a bougé de case ou non
 		if (newRow != m_player.row() || newCol != m_player.col()) {
 			if (m_grid[newRow][newCol] != null)
 				return;
 		}
-		// on passe l'ancienne case du joueur à null 
+		// on passe l'ancienne case du joueur à null
 		m_grid[m_player.m_row][m_player.m_col] = null;
-		
+
 		m_player.m_row = newRow;
 		m_player.m_col = newCol;
 		m_player.px = px;
 		m_player.py = py;
-		
+
 		// on met la position du joueur dans la nouvelle case de la grille
 		m_grid[newRow][newCol] = m_player;
 	}
