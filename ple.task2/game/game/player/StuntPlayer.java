@@ -41,22 +41,20 @@ public class StuntPlayer extends Stunt{
 
 	@Override
 	public void rotate(int angle) {
+		angle = cardinalOf(angle);
 		super.rotate(angle);
 	}
 	
 	public int cardinalOf(int angle) {
-		if(angle > 315 || angle <= 45) {
-			return 0;
-		}
-		else if(angle >45 || angle <=135 ) {
-			return 90;
-		}
-		else if(angle >135 || angle <=225) {
-			return 180;
-		}
-		else {
-			return 270;
-		}
+		if((angle >= 315 && angle < 360) || (angle >=0 && angle <45)) {
+	    	return 0;
+	    }else if(angle >= 45 && angle < 135) {
+	    	return 90;
+	    }else if(angle >= 135 && angle < 225) {
+	    	return 180;
+	    }else {
+	    	return 270;
+	    }
 	}
 
 }

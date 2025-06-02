@@ -65,6 +65,10 @@ public abstract class Entity {
 		m_model.moveM(nrows, ncols);
 	}
 
+	public void orient(int angle) {
+		m_orientation = normalize(angle);
+	}
+
 	
 	
 	

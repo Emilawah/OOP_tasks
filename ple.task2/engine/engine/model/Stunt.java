@@ -16,8 +16,8 @@ public abstract class Stunt {
 	 }
 
 	 public void rotate(int angle) {
-		 angle=angle+e.orientation();
-		 e.rotate(angle);
+		 angle = angle + e.orientation();
+		 e.orient(angle);
 	 }
 	 
 	 public abstract void up();
