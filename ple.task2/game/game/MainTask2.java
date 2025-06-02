@@ -5,7 +5,7 @@ import oop.graphics.Canvas;
 import oop.runtime.EventPump;
 import oop.tasks.Task;
 
-public class MainTask1 {
+public class MainTask2 {
 
 	public static void main(String args[]) {
 		EventPump ep = new EventPump();
@@ -14,7 +14,7 @@ public class MainTask1 {
 			public void run() {
 				Task task = Task.task();
 				Canvas canvas = (Canvas) task.find("canvas");
-				new Painter(canvas, 10, 30);
+				new Painter(canvas, 20, 20);
 			}
 		};
 		ep.boot(d, r);

@@ -11,6 +11,7 @@ import engine.model.Model;
 import engine.model.Player;
 import engine.view.View;
 import game.player.AvatarPlayer;
+import game.player.StuntPlayer;
 import oop.graphics.Canvas;
 
 public class View0 extends View {
@@ -28,13 +29,11 @@ public class View0 extends View {
 	public void paint(Canvas canvas, Graphics2D g) {
 
 		// Réafficher le fond en gris (pour déplacer la grille arrière plan propre)
-		
-		
+
 		g.setColor(java.awt.Color.GRAY);
 		g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
 		super.paint(g, graphX, graphY, zoom);
-		
 
 		// peint la grille
 		debug(canvas, g);
@@ -43,7 +42,7 @@ public class View0 extends View {
 		drawEntitie(g);
 		// peint le joueur
 		((AvatarPlayer) m_model.player().avatar).render(g);
-		//drawPlayer(g);
+		// drawPlayer(g);
 
 	}
 
@@ -87,25 +86,22 @@ public class View0 extends View {
 		int pixelx = (int) ((p.getX() / m_model.getDim()) * getSizeCell());
 		int pixely = (int) ((p.getY() / m_model.getDim()) * getSizeCell());
 
-
 		paintPlayer(g, p, pixelx, pixely, triangle);
 	}
-	
-	
+
 	@Override
 	public void birth(Entity e) {
-		if(e instanceof Player) {
-			new AvatarPlayer(this,e);
+		if (e instanceof Player) {
+			new AvatarPlayer(this, e);
+			new StuntPlayer((Model) m_model,e);
 		}
 	}
 
 	@Override
 	public void death(Entity e) {
-		if(e instanceof Player) {
-			
+		if (e.avatar != null) {
+			e.avatar = null;
 		}
 	}
-
-
 
 }

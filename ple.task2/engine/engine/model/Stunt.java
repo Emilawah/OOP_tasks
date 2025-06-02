@@ -11,7 +11,17 @@ public abstract class Stunt {
 	}
 
 	//ACTIONS 
-	abstract public void move(int nrows, int ncols);
+	 public void move(int nrows, int ncols) {
+		 m.move(e, nrows, ncols);
+	 }
 
-	abstract public void rotate(int angle);
+	 public void rotate(int angle) {
+		 angle=angle+e.orientation();
+		 e.rotate(angle);
+	 }
+	 
+	 public abstract void up();
+	 public abstract void down();
+	 public abstract void right();
+	 public abstract void left();
 }

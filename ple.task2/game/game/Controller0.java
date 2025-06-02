@@ -4,6 +4,7 @@ import engine.IModel;
 
 import engine.IView;
 import engine.controller.Controller;
+import engine.model.Stunt;
 import engine.utils.Utils;
 import oop.graphics.Canvas;
 import oop.tasks.Task;
@@ -18,6 +19,9 @@ public class Controller0 extends Controller {
 
 	private boolean leftRotation; // pour la rotation a droite (button pressed)
 	private boolean rightRotation; // pour la rotation a gauche (button pressed)
+	private boolean isMoving; // pour savoir si le joueur bouge ou non
+
+	private Stunt stunt = (Stunt) m_model.player().stunt;
 
 	public Controller0(Canvas canvas, IModel model, IView view) {
 		super(canvas, model, view);
@@ -27,41 +31,36 @@ public class Controller0 extends Controller {
 	protected void pressed(Canvas canvas, int keyCode, char keyChar) {
 		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_LEFT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_LEFT)
 				&& m_shift) {
-			m_model.player().rotate(-90);
+			stunt.rotate(-90);
 		}
 		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_RIGHT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_RIGHT)
 				&& m_shift) {
-			m_model.player().rotate(90);
+			stunt.rotate(90);
+		}
+		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_UP || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_UP)
+				&& m_shift) {
+			isMoving = true;
+			startMove();
+		}
+		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_DOWN || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_DOWN)
+				&& m_shift) {
+			isMoving = false;
 		}
 
 		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_LEFT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_LEFT)
 				&& !m_shift && !m_control) {
-			m_model.player().left();
+			stunt.left();
 		} else if ((keyCode == oop.graphics.VirtualKeyCodes.VK_RIGHT
 				|| keyCode == oop.graphics.VirtualKeyCodes.VK_KP_RIGHT) && !m_shift && !m_control) {
-			m_model.player().right();
+			stunt.right();
 		} else if ((keyCode == oop.graphics.VirtualKeyCodes.VK_UP || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_UP)
 				&& !m_control) {
-			m_model.player().startMove();
-			if (moveTask == null) {
+			stunt.up();
 
-				moveTask = new Runnable() {
-
-					public void run() {
-						if (m_model.player().isMoving()) {
-							m_model.player().movePlayer();
-							Task.task().post(this, 30);
-						} else {
-							moveTask = null;
-						}
-					}
-				};
-				Task.task().post(moveTask);
-			}
 		} else if ((keyCode == oop.graphics.VirtualKeyCodes.VK_DOWN
 				|| keyCode == oop.graphics.VirtualKeyCodes.VK_KP_DOWN) && !m_control) {
 
-			m_model.player().stopMove();
+			stunt.down();
 
 		}
 
@@ -82,6 +81,9 @@ public class Controller0 extends Controller {
 	@Override
 	protected void pressed(Canvas canvas, int bno, int x, int y) {
 
+		if (isMoving) {
+	        return; // on ignore la pression des boutons souris
+	    }
 		if (bno == 1) {
 			leftRotation = true;
 		} else if (bno == 3) {
@@ -109,6 +111,10 @@ public class Controller0 extends Controller {
 
 	@Override
 	protected void released(Canvas canvas, int bno, int x, int y) {
+		
+		 if (isMoving) {
+		        return; // ignore aussi les relâchements pendant le suivi
+		    }
 		if (bno == 1) {
 			leftRotation = false;
 		} else if (bno == 3) {
@@ -151,6 +157,40 @@ public class Controller0 extends Controller {
 		int coord = Utils.theta(-dy, dx);
 
 		return coord;
+	}
+
+	private void startMove() {
+		if(moveTask == null) {
+			moveTask = new Runnable() {
+				public void run() {
+					if(isMoving) {
+	                    m_model.player().face(angle(m_canvas));
+						goToMouse();
+						Task.task().post(this,30);
+					}else {
+						moveTask=null;
+					}
+					
+				}
+			};
+			Task.task().post(moveTask);
+		}
+	}
+
+	private void goToMouse() {
+	    		
+		int theta = m_model.player().orientation();
+
+	    if((theta >= 315 && theta < 360) || (theta >=0 && theta <45)) {
+	    	stunt.up();
+	    }else if(theta >= 45 && theta < 135) {
+	    	stunt.right();
+	    }else if(theta >= 135 && theta < 225) {
+	    	stunt.down();
+	    }else {
+	    	stunt.left();
+	    }
+	
 	}
 
 }

@@ -64,6 +64,8 @@ public abstract class Entity {
 	public void move(int nrows, int ncols) {
 		m_model.moveM(nrows, ncols);
 	}
+
+	
 	
 	
 

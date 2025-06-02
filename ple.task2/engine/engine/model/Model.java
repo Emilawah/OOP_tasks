@@ -44,7 +44,7 @@ public class Model implements IModel {
 	 * Move the given entity from its current location by adding the given number of
 	 * rows and columns to its current location.
 	 */
-	void move(Entity e, int nrows, int ncols) {
+	public void move(Entity e, int nrows, int ncols) {
 
 		int row_old = e.m_row;
 		int col_old = e.m_col;
