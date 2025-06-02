@@ -34,6 +34,7 @@ public class Game {
 		m_controller = new Controller0(canvas, m_model, m_view);
 		m_model.setView(m_view);
 		new Ticker(this);
+		
 
 	}
 

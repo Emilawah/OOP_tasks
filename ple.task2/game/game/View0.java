@@ -10,12 +10,14 @@ import engine.model.Entity;
 import engine.model.Model;
 import engine.model.Player;
 import engine.view.View;
+import game.player.AvatarPlayer;
 import oop.graphics.Canvas;
 
 public class View0 extends View {
 
 	public View0(Canvas canvas, IModel model) {
 		super(canvas, model);
+		birth(m_model.player());
 	}
 
 	public void focus(int px, int py) {
@@ -40,7 +42,8 @@ public class View0 extends View {
 		// peint le(s) entité(s)
 		drawEntitie(g);
 		// peint le joueur
-		drawPlayer(g);
+		((AvatarPlayer) m_model.player().avatar).render(g);
+		//drawPlayer(g);
 
 	}
 
@@ -87,17 +90,20 @@ public class View0 extends View {
 
 		paintPlayer(g, p, pixelx, pixely, triangle);
 	}
-
+	
+	
 	@Override
 	public void birth(Entity e) {
-		// TODO Auto-generated method stub
-		
+		if(e instanceof Player) {
+			new AvatarPlayer(this,e);
+		}
 	}
 
 	@Override
 	public void death(Entity e) {
-		// TODO Auto-generated method stub
-		
+		if(e instanceof Player) {
+			
+		}
 	}
 
 

@@ -2,12 +2,14 @@ package engine.view;
 
 import java.awt.Graphics2D;
 
+
 import engine.IModel;
 import engine.IView;
 
 import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
 
+import engine.model.Entity;
 import engine.model.Model;
 import engine.model.Player;
 import oop.graphics.Canvas;
@@ -31,6 +33,7 @@ public abstract class View implements IView {
 		m_canvas = canvas;
 		m_model = model;
 		p = m_model.player();
+	
 	}
 
 	public abstract void focus(int px, int py);
@@ -119,7 +122,7 @@ public abstract class View implements IView {
 
 	}
 
-	protected void paintPlayer(Graphics2D g, Player p, int x, int y, Polygon pg) {
+	public void paintPlayer(Graphics2D g, Player p, int x, int y, Polygon pg) {
 		int d = p.orientation();
 		double rot = Math.toRadians(d);
 		AffineTransform saved = g.getTransform();
@@ -128,5 +131,7 @@ public abstract class View implements IView {
 		g.fillPolygon(pg);
 		g.setTransform(saved);
 	}
+	
+	
 
 }

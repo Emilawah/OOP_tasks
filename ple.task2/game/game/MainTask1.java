@@ -14,7 +14,7 @@ public class MainTask1 {
 			public void run() {
 				Task task = Task.task();
 				Canvas canvas = (Canvas) task.find("canvas");
-				new Painter(canvas, 20, 20);
+				new Painter(canvas, 10, 30);
 			}
 		};
 		ep.boot(d, r);

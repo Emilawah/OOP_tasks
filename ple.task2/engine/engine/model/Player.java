@@ -1,8 +1,6 @@
 package engine.model;
 
-import java.awt.Graphics2D;
 
-import engine.view.View;
 
 public class Player extends Entity {
 	protected float px;
@@ -93,16 +91,5 @@ public class Player extends Entity {
 		m_model.moveM(x, y);
 	}
 	
-	private class AvatarPlayer extends Avatar{
-
-		AvatarPlayer(View v, Entity e) {
-			super(v, e);
-		}
-
-		@Override
-		void render(Graphics2D g) {
-			
-		}
-		
-	}
+	
 }
