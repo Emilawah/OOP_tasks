@@ -129,10 +129,8 @@ public class Controller0 extends Controller {
 					mouseTask = null;
 				}
 			};
-			Task.task().post(mouseTask,30);
+			Task.task().post(mouseTask, 30);
 		}
-	
-		
 
 	}
 
