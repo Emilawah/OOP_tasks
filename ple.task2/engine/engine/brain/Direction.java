@@ -2,6 +2,12 @@ package engine.brain;
 
 public abstract class Direction {
 
+	final private int angle;
+
+	protected Direction(int a) {
+		angle = a;
+	}
+
 	// Absolute
 	public static final Direction N; // north
 	public static final Direction E; // east
@@ -36,75 +42,84 @@ public abstract class Direction {
 
 	// must be static
 	// should be private
-	private static
-	class Absolute extends Direction {
+	private static class Absolute extends Direction {
+
+		protected Absolute(int angle) {
+			super(angle);
+		}
 
 		@Override
 		public boolean isRelative() {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		@Override
 		public int degrees() {
-			// TODO Auto-generated method stub
-			return 0;
+
+			return super.angle;
 		}
 
 		@Override
 		public boolean equals(Direction d) {
-			// TODO Auto-generated method stub
-			return false;
+			return !isRelative() && (d.degrees()==super.angle);
 		}
 
 		@Override
 		public Direction rotate(int angle) {
-			// TODO Auto-generated method stub
-			return null;
+
+			return new Absolute(degrees() + angle);
 		}
 
 		@Override
 		public Direction cardinalOf() {
-			// TODO Auto-generated method stub
-			return null;
+			if(super.angle >= 315 && super.angle < 45) {
+				return Direction.N;
+			}else if (super.angle  < 90) {
+				return Direction.E;
+			}else if (super.angle < 180) {
+				return Direction.S;
+			}else {
+				return Direction.W;
+			}
 		}
-	
+
 	}
 
 	// must be static
 	// should be private
-	private static
-	class Relative extends Direction {
+	private static class Relative extends Direction {
 
+		
+		protected Relative(int angle) {
+			super(angle);
+		}
+		
 		@Override
 		public boolean isRelative() {
-			// TODO Auto-generated method stub
-			return false;
+			return true;
 		}
 
 		@Override
 		public int degrees() {
-			// TODO Auto-generated method stub
-			return 0;
+			return super.angle;
 		}
 
 		@Override
 		public boolean equals(Direction d) {
-			// TODO Auto-generated method stub
-			return false;
+
+			return d.isRelative() && (d.degrees() == super.angle);
 		}
 
 		@Override
 		public Direction rotate(int angle) {
-			// TODO Auto-generated method stub
-			return null;
+			
+			return new Relative(degrees()+angle);
 		}
 
 		@Override
 		public Direction cardinalOf() {
-			// TODO Auto-generated method stub
-			return null;
+			return this;
 		}
-	
+
 	}
 }
