@@ -10,18 +10,14 @@ public abstract class Stunt {
 		e.stunt = this;
 	}
 
-	//ACTIONS 
-	 public void move(int nrows, int ncols) {
-		 m.move(e, nrows, ncols);
-	 }
+	// ACTIONS
+	public void move(int nrows, int ncols) {
+		m.move(e, nrows, ncols);
+	}
 
-	 public void rotate(int angle) {
-		 angle = angle + e.orientation();
-		 e.orient(angle);
-	 }
-	 
-	 public abstract void up();
-	 public abstract void down();
-	 public abstract void right();
-	 public abstract void left();
+	public void rotate(int angle) {
+
+		e.face(angle);
+	}
+
 }

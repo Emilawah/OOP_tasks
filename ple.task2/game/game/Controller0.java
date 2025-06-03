@@ -2,10 +2,11 @@ package game;
 
 import engine.IModel;
 
+
 import engine.IView;
 import engine.controller.Controller;
-import engine.model.Stunt;
 import engine.utils.Utils;
+import game.player.StuntPlayer;
 import oop.graphics.Canvas;
 import oop.tasks.Task;
 
@@ -21,7 +22,7 @@ public class Controller0 extends Controller {
 	private boolean rightRotation; // pour la rotation a gauche (button pressed)
 	private boolean isMoving; // pour savoir si le joueur bouge ou non
 
-	private Stunt stunt = (Stunt) m_model.player().stunt;
+	private StuntPlayer stunt = (StuntPlayer) m_model.player().stunt;
 
 	public Controller0(Canvas canvas, IModel model, IView view) {
 		super(canvas, model, view);
@@ -81,9 +82,7 @@ public class Controller0 extends Controller {
 	@Override
 	protected void pressed(Canvas canvas, int bno, int x, int y) {
 
-		if (isMoving) {
-	        return; // on ignore la pression des boutons souris
-	    }
+
 		if (bno == 1) {
 			leftRotation = true;
 		} else if (bno == 3) {
@@ -111,10 +110,8 @@ public class Controller0 extends Controller {
 
 	@Override
 	protected void released(Canvas canvas, int bno, int x, int y) {
-		
-		 if (isMoving) {
-		        return; // ignore aussi les relâchements pendant le suivi
-		    }
+
+
 		if (bno == 1) {
 			leftRotation = false;
 		} else if (bno == 3) {
@@ -160,17 +157,17 @@ public class Controller0 extends Controller {
 	}
 
 	private void startMove() {
-		if(moveTask == null) {
+		if (moveTask == null) {
 			moveTask = new Runnable() {
 				public void run() {
-					if(isMoving) {
-	                    m_model.player().face(angle(m_canvas));
+					if (isMoving) {
+						m_model.player().face(angle(m_canvas));
 						goToMouse();
-						Task.task().post(this,30);
-					}else {
-						moveTask=null;
+						Task.task().post(this, 30);
+					} else {
+						moveTask = null;
 					}
-					
+
 				}
 			};
 			Task.task().post(moveTask);
@@ -178,19 +175,19 @@ public class Controller0 extends Controller {
 	}
 
 	private void goToMouse() {
-	    		
+
 		int theta = m_model.player().orientation();
 
-	    if((theta >= 315 && theta < 360) || (theta >=0 && theta <45)) {
-	    	stunt.up();
-	    }else if(theta >= 45 && theta < 135) {
-	    	stunt.right();
-	    }else if(theta >= 135 && theta < 225) {
-	    	stunt.down();
-	    }else {
-	    	stunt.left();
-	    }
-	
+		if ((theta >= 315 && theta < 360) || (theta >= 0 && theta < 45)) {
+			stunt.up();
+		} else if (theta >= 45 && theta < 135) {
+			stunt.right();
+		} else if (theta >= 135 && theta < 225) {
+			stunt.down();
+		} else {
+			stunt.left();
+		}
+
 	}
 
 }
