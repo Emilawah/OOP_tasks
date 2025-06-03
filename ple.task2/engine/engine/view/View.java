@@ -12,6 +12,7 @@ import java.awt.geom.AffineTransform;
 import engine.model.Entity;
 import engine.model.Model;
 import engine.model.Player;
+import game.bot.WalkerBot;
 import oop.graphics.Canvas;
 import oop.graphics.Graphics;
 import oop.graphics.Graphics.Colors;
@@ -24,6 +25,7 @@ public abstract class View implements IView {
 	protected int mouseY;
 	protected int sizeCell;
 	protected Player p;
+	protected WalkerBot walkerBot;
 
 	protected float zoom = 1;
 	protected int graphX = 0;
@@ -33,6 +35,7 @@ public abstract class View implements IView {
 		m_canvas = canvas;
 		m_model = model;
 		p = m_model.player();
+		walkerBot = new WalkerBot(null, p);
 	
 	}
 

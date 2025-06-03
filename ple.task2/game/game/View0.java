@@ -2,16 +2,20 @@ package game;
 
 import java.awt.Graphics2D;
 
+
 import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
 
 import engine.IModel;
+import engine.brain.Category;
 import engine.model.Entity;
 import engine.model.Model;
 import engine.model.Player;
+import engine.view.Avatar;
 import engine.view.View;
 import game.player.AvatarPlayer;
 import game.player.StuntPlayer;
+import game.bot.*;
 import oop.graphics.Canvas;
 
 public class View0 extends View {
@@ -40,9 +44,8 @@ public class View0 extends View {
 
 		// peint le(s) entité(s)
 		drawEntitie(g);
-		// peint le joueur
-		((AvatarPlayer) m_model.player().avatar).render(g);
-		// drawPlayer(g);
+		// shape of entity
+		drawEntity(g);
 
 	}
 
@@ -67,33 +70,33 @@ public class View0 extends View {
 			}
 		}
 	}
-
-	private void drawPlayer(Graphics2D g) {
-		// peint le joueur
-		int l = (int) (sizeCell * 0.6); // largeur
-		int h = (int) (sizeCell * 0.7); // hauteur
-
-		// Triangle centré autour de (0,0)
-		Polygon triangle = new Polygon();
-		triangle.addPoint(0, -h / 2); // sommet (haut, pointe du triangle)
-		triangle.addPoint(-l / 2, h / 2); // coin bas gauche
-		triangle.addPoint(l / 2, h / 2); // coin bas droit
-
-		// peint le joueur
-		p = m_model.player();
-		g.setColor(java.awt.Color.YELLOW);
-
-		int pixelx = (int) ((p.getX() / m_model.getDim()) * getSizeCell());
-		int pixely = (int) ((p.getY() / m_model.getDim()) * getSizeCell());
-
-		paintPlayer(g, p, pixelx, pixely, triangle);
-	}
-
+	
+	private void drawEntity(Graphics2D g) {
+        int nrows = m_model.nrows();
+        int ncols = m_model.ncols();
+        
+        
+        for (int row = 0; row < nrows; row++) {
+            for (int col = 0; col < ncols; col++) {
+                Entity e = m_model.entity(row, col);
+                if (e != null && e.avatar instanceof Avatar) {
+                    ((Avatar) e.avatar).render(g);
+                }
+            }
+        }
+    }
+	
 	@Override
 	public void birth(Entity e) {
 		if (e instanceof Player) {
 			new AvatarPlayer(this, e);
 			new StuntPlayer((Model) m_model,e);
+		}
+		else if(e instanceof WalkerEntity) {
+			new AvatarWalker(this, e);
+			new StuntWalker((Model) m_model, e);
+		
+		 
 		}
 	}
 

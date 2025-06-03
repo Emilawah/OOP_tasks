@@ -30,10 +30,10 @@ public abstract class Direction {
 	public abstract Direction cardinalOf();
 
 	static {
-		N = new Absolute(270);
-		E = new Absolute(0);
-		S = new Absolute(90);
-		W = new Absolute(180);
+		N = new Absolute(0);
+		E = new Absolute(90);
+		S = new Absolute(180);
+		W = new Absolute(270);
 		F = new Relative(0);
 		B = new Relative(180);
 		L = new Relative(270);
@@ -61,7 +61,7 @@ public abstract class Direction {
 
 		@Override
 		public boolean equals(Direction d) {
-			return !isRelative() && (d.degrees()==super.angle);
+			return !isRelative() && (d.degrees() == super.angle);
 		}
 
 		@Override
@@ -72,14 +72,15 @@ public abstract class Direction {
 
 		@Override
 		public Direction cardinalOf() {
-			if(super.angle >= 315 && super.angle < 45) {
-				return Direction.N;
-			}else if (super.angle  < 90) {
-				return Direction.E;
-			}else if (super.angle < 180) {
-				return Direction.S;
-			}else {
-				return Direction.W;
+			int a = degrees();
+			if (a >= 315 && a < 45) {
+				return N;
+			} else if (a < 135) {
+				return E;
+			} else if (a < 225) {
+				return S;
+			} else {
+				return W;
 			}
 		}
 
@@ -89,11 +90,10 @@ public abstract class Direction {
 	// should be private
 	private static class Relative extends Direction {
 
-		
 		protected Relative(int angle) {
 			super(angle);
 		}
-		
+
 		@Override
 		public boolean isRelative() {
 			return true;
@@ -112,8 +112,8 @@ public abstract class Direction {
 
 		@Override
 		public Direction rotate(int angle) {
-			
-			return new Relative(degrees()+angle);
+
+			return new Relative(degrees() + angle);
 		}
 
 		@Override

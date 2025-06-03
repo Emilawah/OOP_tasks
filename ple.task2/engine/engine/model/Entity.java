@@ -1,6 +1,7 @@
 package engine.model;
 
 import engine.IBrain.IBot;
+import engine.brain.Category;
 
 public abstract class Entity {
 	protected Model m_model;
@@ -10,7 +11,7 @@ public abstract class Entity {
 	public Object avatar;
 	public Stunt stunt;
 	public IBot bot;
-
+	protected Category category;
 
 	protected Entity(Model m, int r, int c, int o) {
 		m_model = m;
@@ -66,6 +67,14 @@ public abstract class Entity {
 	 */
 	public void move(int nrows, int ncols) {
 		m_model.moveM(nrows, ncols);
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+	
+	public Model getModel() {
+		return m_model;
 	}
 
 

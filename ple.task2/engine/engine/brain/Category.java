@@ -58,14 +58,13 @@ public abstract class Category {
 		@Override
 		public boolean specializes(Category c) {
 			Category current = this;
-			if (current == c) {
-				return true;
-			}
-			if (current instanceof Type) {
+			while (current != null) {
+				if(current.equals(c)) {
+					return true;
+				}
 				current = ((Type) current).parent;
 			}
 			return false;
 		}
-
 	}
 }
