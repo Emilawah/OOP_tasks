@@ -16,7 +16,6 @@ public abstract class Stunt {
 	}
 
 	public void rotate(int angle) {
-
 		e.face(angle);
 	}
 

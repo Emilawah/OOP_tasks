@@ -1,5 +1,7 @@
 package engine.model;
 
+import engine.IBrain.IBot;
+
 public abstract class Entity {
 	protected Model m_model;
 	protected int m_row, m_col;
@@ -7,6 +9,7 @@ public abstract class Entity {
 	protected boolean m_metric;
 	public Object avatar;
 	public Stunt stunt;
+	public IBot bot;
 
 
 	protected Entity(Model m, int r, int c, int o) {
