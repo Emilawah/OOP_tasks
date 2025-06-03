@@ -17,10 +17,16 @@ public abstract class Bot implements IBot {
 	abstract public void think(int elapsed);
 
 	protected void turn(Direction d) {
-		
+		int angle;
+		if(d.isRelative()) {
+			angle = d.degrees();
+		}else {
+			angle = d.degrees() - e.orientation();
+		}
+		e.stunt.rotate(angle);
 	}
 
-	protected void turn(Direction d) {
+	protected void move(Direction d) {
 		
 	}
 
