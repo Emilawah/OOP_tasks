@@ -1,12 +1,11 @@
 package game.bot;
 
 import java.awt.Color;
+
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.awt.geom.AffineTransform;
 
 import engine.model.Entity;
-import engine.model.Player;
 import engine.view.Avatar;
 import engine.view.View;
 

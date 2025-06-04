@@ -11,6 +11,7 @@ public class WalkerBot extends Bot {
 		
 	}
 
+	@Override
 	public void think(int elapsed) {
 		if (cell(Direction.F) == null)
 			move(Direction.F);
@@ -29,6 +30,9 @@ public class WalkerBot extends Bot {
 
 	@Override
 	public void think() {
-		think(16);
+		move(Direction.S);
+	
 	}
+
+
 }

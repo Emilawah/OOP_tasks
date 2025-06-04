@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Graphics2D;
 
+
 import engine.IController;
 import engine.IModel;
 import engine.IModel.Config;
@@ -42,7 +43,7 @@ public class Game {
 		
 		// bots
 		WalkerEntity wb = new WalkerEntity(m_model, 8, 8, 0);
-		//m_bot = new WalkerBot(null, wb);
+		m_bot = wb.getBot();
 		m_view.birth(wb);
 
 	}

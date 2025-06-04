@@ -46,26 +46,27 @@ public class Model implements IModel {
 	 */
 	public void move(Entity e, int nrows, int ncols) {
 
-		int row_old = e.m_row;
-		int col_old = e.m_col;
+		int new_row = e.m_row+nrows;
+		int new_col = e.m_col+ncols;
 
-		if (this.m_conf.tore) {
-			e.m_row += nrows;
-			e.m_col += ncols;
-			e.m_row = normalize(e.m_row, nrows());
-			e.m_col = normalize(e.m_col, ncols());
-		} else {
-			e.m_row += nrows;
-			e.m_col += ncols;
-			if (e.m_row >= nrows() || e.m_col >= ncols() || e.m_row < 0 || e.m_col < 0) {
-				// si les nouvelles coordonées dépassent la taille du "terrain", il retourne au
-				// point de départ
-				e.m_row = row_old;
-				e.m_col = col_old;
+		if(m_conf.tore) {
+			new_row = normalize(new_row, nrows());
+			new_col = normalize(new_col, ncols());
+		} 
+		else {
+			if(new_row >= m_nrows || new_col >= m_ncols || new_row < 0 || new_col <0 ) {
+				new_row = e.m_row;
+				new_col = e.m_col;
 			}
-
 		}
-
+		
+		if(entity(new_row,new_col) == null) {
+			m_grid[e.m_row][e.m_col] = null;
+			e.m_row = new_row;
+			e.m_col = new_col;
+			m_grid[new_row][new_col] = e;
+		}
+		
 	}
 
 	public void moveM(float x, float y) {

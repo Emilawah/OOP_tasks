@@ -5,7 +5,7 @@ import oop.tasks.Task;
 public class Ticker implements Runnable {
 	private Game m_game;
 	private long m_last;
-	private int m_delay = 1; // milli-seconds
+	private int m_delay = 1000; // milli-seconds
 
 	Ticker(Game g) {
 		m_game = g;

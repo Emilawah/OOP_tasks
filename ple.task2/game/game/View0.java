@@ -2,7 +2,6 @@ package game;
 
 import java.awt.Graphics2D;
 
-
 import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
 
@@ -23,6 +22,7 @@ public class View0 extends View {
 	public View0(Canvas canvas, IModel model) {
 		super(canvas, model);
 		birth(m_model.player());
+
 	}
 
 	public void focus(int px, int py) {
@@ -70,33 +70,31 @@ public class View0 extends View {
 			}
 		}
 	}
-	
+
 	private void drawEntity(Graphics2D g) {
-        int nrows = m_model.nrows();
-        int ncols = m_model.ncols();
-        
-        
-        for (int row = 0; row < nrows; row++) {
-            for (int col = 0; col < ncols; col++) {
-                Entity e = m_model.entity(row, col);
-                if (e != null && e.avatar instanceof Avatar) {
-                    ((Avatar) e.avatar).render(g);
-                }
-            }
-        }
-    }
-	
+		int nrows = m_model.nrows();
+		int ncols = m_model.ncols();
+
+		for (int row = 0; row < nrows; row++) {
+			for (int col = 0; col < ncols; col++) {
+				Entity e = m_model.entity(row, col);
+				if (e != null && e.avatar instanceof Avatar) {
+
+					((Avatar) e.avatar).render(g);
+				}
+			}
+		}
+	}
+
 	@Override
 	public void birth(Entity e) {
 		if (e instanceof Player) {
 			new AvatarPlayer(this, e);
-			new StuntPlayer((Model) m_model,e);
-		}
-		else if(e instanceof WalkerEntity) {
+			new StuntPlayer((Model) m_model, e);
+		} else if (e instanceof WalkerEntity) {
 			new AvatarWalker(this, e);
 			new StuntWalker((Model) m_model, e);
-		
-		 
+
 		}
 	}
 

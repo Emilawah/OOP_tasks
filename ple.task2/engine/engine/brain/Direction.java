@@ -61,7 +61,7 @@ public abstract class Direction {
 
 		@Override
 		public boolean equals(Direction d) {
-			return !isRelative() && (d.degrees() == super.angle);
+			return !d.isRelative() && (d.degrees() == super.angle);
 		}
 
 		@Override
@@ -73,7 +73,7 @@ public abstract class Direction {
 		@Override
 		public Direction cardinalOf() {
 			int a = degrees();
-			if (a >= 315 && a < 45) {
+			if (a >= 315 || a < 45) {
 				return N;
 			} else if (a < 135) {
 				return E;

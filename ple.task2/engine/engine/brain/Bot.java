@@ -7,6 +7,7 @@ import engine.model.Model;
 public abstract class Bot implements IBot {
 	protected Brain b;
 	protected Entity e;
+	protected Category category;
 
 	protected Bot(Brain b, Entity e) {
 		this.b = b;
@@ -29,22 +30,21 @@ public abstract class Bot implements IBot {
 
 	protected void move(Direction d) {
 		// move l'entité d'une case dans la grille
-		int entity_x = e.row();
-		int entity_y = e.col();
 
-		// on converti la direction en absolue (pour savoir ou doit aller l'entité par rapport a la grille)
-		Direction absolute = toAbsolute(d);
-		
-		if (absolute.equals(Direction.N)) {
-			entity_y--;
-		} else if (absolute.equals(Direction.E)) {
-			entity_x++;
-		} else if (absolute.equals(Direction.S)) {
-			entity_y++;
-		} else if (absolute.equals(Direction.W)) {
-			entity_x--;
+
+		// on converti la direction en absolue 
+		Direction dir = d.cardinalOf();
+		turn(dir);
+		System.out.println(dir);
+		if (dir.equals(Direction.N)) {
+			e.stunt.move(-1, 0);
+		} else if (dir.equals(Direction.E)) {
+			e.stunt.move(0, 1);
+		} else if (dir.equals(Direction.S)) {
+			e.stunt.move(1, 0);
+		} else if (dir.equals(Direction.W)) {
+			e.stunt.move(0, -1);
 		}
-		e.stunt.move(entity_x, entity_y);
 	}
 
 	protected Entity cell(Direction d) {
@@ -54,7 +54,7 @@ public abstract class Bot implements IBot {
 		int entity_y = e.col();
 
 		// on converti la direction en absolue (pour savoir ou doit aller l'entité par rapport a la grille)
-		Direction absolute = toAbsolute(d);
+		Direction absolute = d.cardinalOf();
 		
 		if (absolute.equals(Direction.N)) {
 			entity_y--;
