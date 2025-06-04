@@ -18,7 +18,6 @@ public class AvatarPlayer extends Avatar {
 	@Override
 	public void render(Graphics2D g) {
 		
-		
 		int w = canvas.getWidth();
 		int h = canvas.getHeight();
 		int nrows = model.nrows();

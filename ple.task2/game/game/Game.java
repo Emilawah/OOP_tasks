@@ -3,6 +3,7 @@ package game;
 import java.awt.Graphics2D;
 
 
+
 import engine.IController;
 import engine.IModel;
 import engine.IModel.Config;
@@ -13,6 +14,7 @@ import engine.model.Player;
 import engine.view.View;
 import game.bot.WalkerBot;
 import game.bot.WalkerEntity;
+import engine.brain.Brain;
 import oop.graphics.Canvas;
 
 public class Game {
@@ -22,29 +24,28 @@ public class Game {
 	private Controller m_controller;
 	private WalkerBot m_bot;
 	private Ticker m_ticker;
+	private Brain m_brain;
 
 	Game(Canvas canvas, int nrows, int ncols) {
 		this.m_canvas = canvas;
 
 		IModel.Config conf = new Config();
-		conf.tore = true;
+		conf.tore = true;;
 
 		m_model = new Model(nrows, ncols);
 		m_model.config(conf); // configure before adding entities
-
-		// joueur
-		new Player(m_model, 5, 5, 90);
 
 		m_view = new View0(canvas, m_model);
 		m_controller = new Controller0(canvas, m_model, m_view);
 		m_model.setView(m_view);
 		
+		m_brain = new Brain(m_model);
 		m_ticker = new Ticker(this);
 		
+		// player
+		new Player(m_model, 5, 5, 90);
 		// bots
-		WalkerEntity wb = new WalkerEntity(m_model, 8, 8, 0);
-		m_bot = wb.getBot();
-		m_view.birth(wb);
+		new WalkerEntity(m_model,m_brain, 6,6,0);
 
 	}
 
@@ -53,9 +54,7 @@ public class Game {
 	}
 
 	public void tick(int elapsed) {
-		if (m_bot != null) {
-			m_bot.think();
-		}
+		m_brain.tick(elapsed);
 	}
 
 }

@@ -22,7 +22,6 @@ public class Controller0 extends Controller {
 	private boolean rightRotation; // pour la rotation a gauche (button pressed)
 	private boolean isMoving; // pour savoir si le joueur bouge ou non
 
-	private StuntPlayer stunt = (StuntPlayer) m_model.player().stunt;
 
 	public Controller0(Canvas canvas, IModel model, IView view) {
 		super(canvas, model, view);
@@ -30,6 +29,8 @@ public class Controller0 extends Controller {
 
 	@Override
 	protected void pressed(Canvas canvas, int keyCode, char keyChar) {
+		StuntPlayer stunt = (StuntPlayer) m_model.player().stunt;
+
 		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_LEFT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_LEFT)
 				&& m_shift) {
 			stunt.rotate(-90);
@@ -175,6 +176,7 @@ public class Controller0 extends Controller {
 	}
 
 	private void goToMouse() {
+		StuntPlayer stunt = (StuntPlayer) m_model.player().stunt;
 
 		int theta = m_model.player().orientation();
 

@@ -1,6 +1,7 @@
 package engine.model;
 
 import engine.IBrain.IBot;
+
 import engine.brain.Category;
 
 public abstract class Entity {
@@ -13,6 +14,7 @@ public abstract class Entity {
 	public IBot bot;
 	protected Category category;
 
+
 	protected Entity(Model m, int r, int c, int o) {
 		m_model = m;
 		m_row = r;
@@ -20,7 +22,7 @@ public abstract class Entity {
 		m_metric = true;
 		m_orientation = normalize(o);
 		m_model.addAt(this);
-	
+
 	}
 
 	// Normalize an angle back to the range [0:360[

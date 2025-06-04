@@ -6,13 +6,17 @@ import engine.brain.Direction;
 import engine.model.Entity;
 
 public class WalkerBot extends Bot {
+	
+	private int delay;
+	private int duration;
+	
 	public WalkerBot(Brain b, Entity e) {
 		super(b, e);
-		
+		duration = 1000;
+		delay = duration/2;
 	}
 
-	@Override
-	public void think(int elapsed) {
+	public void think() {
 		if (cell(Direction.F) == null)
 			move(Direction.F);
 		if (cell(Direction.L) == null)
@@ -29,9 +33,13 @@ public class WalkerBot extends Bot {
 	}
 
 	@Override
-	public void think() {
-		move(Direction.S);
-	
+	public void think(int elapsed) {
+		delay-=elapsed;
+		if (delay <=0) {
+			think();
+			delay = duration/2;
+		}
+		 
 	}
 
 

@@ -1,6 +1,7 @@
 package engine.brain;
 
 import engine.IBrain.IBot;
+
 import engine.model.Entity;
 import engine.model.Model;
 
@@ -8,12 +9,13 @@ public abstract class Bot implements IBot {
 	protected Brain b;
 	protected Entity e;
 	protected Category category;
+	
 
 	protected Bot(Brain b, Entity e) {
 		this.b = b;
 		this.e = e;
 		e.bot = this;
-		
+		b.m_listBots.add(this); 
 	}
 
 	abstract public void think(int elapsed);
@@ -25,14 +27,11 @@ public abstract class Bot implements IBot {
 		} else {
 			angle = d.degrees() - e.orientation();
 		}
-		e.stunt.rotate(angle);
+		e.stunt.rotate(d.degrees() - e.orientation());
 	}
 
 	protected void move(Direction d) {
-		// move l'entité d'une case dans la grille
 
-
-		// on converti la direction en absolue 
 		Direction dir = d.cardinalOf();
 		turn(dir);
 		System.out.println(dir);
@@ -48,28 +47,31 @@ public abstract class Bot implements IBot {
 	}
 
 	protected Entity cell(Direction d) {
-		Model model = e.getModel();
 
 		int entity_x = e.row();
 		int entity_y = e.col();
 
-		// on converti la direction en absolue (pour savoir ou doit aller l'entité par rapport a la grille)
+		// on converti la direction en absolue (pour savoir ou doit aller l'entité par
+		// rapport a la grille)
 		Direction absolute = d.cardinalOf();
-		
+
 		if (absolute.equals(Direction.N)) {
-			entity_y--;
+			return b.model.entity(entity_x, entity_y-1);
 		} else if (absolute.equals(Direction.E)) {
-			entity_x++;
+			return b.model.entity(entity_x+1, entity_y);
+
 		} else if (absolute.equals(Direction.S)) {
-			entity_y++;
+			return b.model.entity(entity_x, entity_y+1);
 		} else if (absolute.equals(Direction.W)) {
-			entity_x--;
+			return b.model.entity(entity_x-1, entity_y);
+		}
+		else {
+			throw new IllegalStateException("entités autour");
 		}
 
-		return model.entity(entity_x, entity_y);
-	}
-		
 	
+		
+	}
 
 	protected Entity cell(Direction d, Category c) {
 		Entity ent = cell(d);
@@ -84,7 +86,7 @@ public abstract class Bot implements IBot {
 
 	protected Entity closest(Category c) {
 		return null;
-		
+
 	}
 
 	protected Direction toAbsolute(Direction d) {

@@ -38,6 +38,7 @@ public class Model implements IModel {
 		if (e instanceof Player && m_player == null) {
 			m_player = (Player) e;
 		}
+		m_view.birth(e);
 	}
 
 	/*

@@ -10,7 +10,4 @@ public class StuntWalker extends Stunt{
 	public StuntWalker(Model m, Entity e) {
 		super(m,e);
 	}
-	
-	
-
 }

@@ -8,6 +8,7 @@ import engine.IView;
 
 import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
+import java.util.LinkedList;
 
 import engine.model.Entity;
 import engine.model.Model;
@@ -26,7 +27,7 @@ public abstract class View implements IView {
 	protected int sizeCell;
 	protected Player p;
 	protected WalkerBot walkerBot;
-
+	protected LinkedList<Avatar> m_avatarList;
 	protected float zoom = 1;
 	protected int graphX = 0;
 	protected int graphY = 0;
@@ -35,8 +36,7 @@ public abstract class View implements IView {
 		m_canvas = canvas;
 		m_model = model;
 		p = m_model.player();
-		walkerBot = new WalkerBot(null, p);
-	
+		m_avatarList = new LinkedList<Avatar>();
 	}
 
 	public abstract void focus(int px, int py);
