@@ -141,8 +141,8 @@ public class Controller0 extends Controller {
 	private int angle(Canvas canvas) {
 
 		// Position (x,y) du joueur (on converti en pixels)
-		float x0 = m_model.player().getX() * m_view.getSizeCell() / m_model.getDim();
-		float y0 = m_model.player().getY() * m_view.getSizeCell() / m_model.getDim();
+		float x0 = (m_model.player().getX() / m_model.getDim()) * m_view.getSizeCell() + m_view.getSizeCell() / 2;
+		float y0 = (m_model.player().getY() / m_model.getDim()) * m_view.getSizeCell() + m_view.getSizeCell() / 2;
 
 		// position (x,y) de la souris
 		float x = (mouseX - m_view.getGraphX()) / m_view.getZoom();

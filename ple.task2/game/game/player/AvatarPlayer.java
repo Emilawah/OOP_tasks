@@ -37,8 +37,8 @@ public class AvatarPlayer extends Avatar {
 		Player p = model.player();
 		g.setColor(java.awt.Color.YELLOW);
 
-		int pixelx = (int) ((p.getX() / model.getDim()) * v.getSizeCell());
-		int pixely = (int) ((p.getY() / model.getDim()) * v.getSizeCell());
+		int pixelx = (int) ((p.getX() / model.getDim()) * v.getSizeCell()+v.getSizeCell()/2);
+		int pixely = (int) ((p.getY() / model.getDim()) * v.getSizeCell()+v.getSizeCell()/2);
 
 		v.paintPlayer(g, p, pixelx, pixely, triangle);
 	}
