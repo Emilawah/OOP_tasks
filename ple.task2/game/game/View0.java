@@ -12,9 +12,9 @@ import engine.model.Model;
 import engine.model.Player;
 import engine.view.Avatar;
 import engine.view.View;
+import game.bot.walker.*;
 import game.player.AvatarPlayer;
 import game.player.StuntPlayer;
-import game.bot.*;
 import oop.graphics.Canvas;
 
 public class View0 extends View {

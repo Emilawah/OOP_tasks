@@ -18,7 +18,7 @@ public class Brain implements IBrain{
 	
 	public void tick(int elapsed) {
 		for(IBot bot : m_listBots) {
-			bot.think(elapsed);
+			bot.think();
 		}
 	}
 }

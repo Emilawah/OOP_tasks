@@ -21,20 +21,20 @@ public abstract class Bot implements IBot {
 	abstract public void think(int elapsed);
 
 	protected void turn(Direction d) {
-		int angle;
-		if (d.isRelative()) {
-			angle = d.degrees();
-		} else {
-			angle = d.degrees() - e.orientation();
-		}
-		e.stunt.rotate(d.degrees() - e.orientation());
+		
+		if (!d.isRelative()) {
+			e.face(d.degrees());
+		} 
+			e.stunt.rotate(d.degrees());
+		
+		
 	}
 
 	protected void move(Direction d) {
 
 		Direction dir = d.cardinalOf();
-		turn(dir);
-		System.out.println(dir);
+		
+		turn(Direction.E);
 		if (dir.equals(Direction.N)) {
 			e.stunt.move(-1, 0);
 		} else if (dir.equals(Direction.E)) {
@@ -53,13 +53,12 @@ public abstract class Bot implements IBot {
 
 		// on converti la direction en absolue (pour savoir ou doit aller l'entité par
 		// rapport a la grille)
-		Direction absolute = d.cardinalOf();
+		Direction absolute = Direction.toAbsolute(e.orientation());;
 
 		if (absolute.equals(Direction.N)) {
 			return b.model.entity(entity_x, entity_y-1);
 		} else if (absolute.equals(Direction.E)) {
 			return b.model.entity(entity_x+1, entity_y);
-
 		} else if (absolute.equals(Direction.S)) {
 			return b.model.entity(entity_x, entity_y+1);
 		} else if (absolute.equals(Direction.W)) {
@@ -89,13 +88,6 @@ public abstract class Bot implements IBot {
 
 	}
 
-	protected Direction toAbsolute(Direction d) {
-		if (d.isRelative()) {
-			int angle = e.orientation() + d.degrees();
-			return Direction.N.rotate(angle).cardinalOf();
-		} else {
-			return d;
-		}
-	}
+
 
 }

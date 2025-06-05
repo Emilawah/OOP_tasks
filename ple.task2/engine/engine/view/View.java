@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import engine.model.Entity;
 import engine.model.Model;
 import engine.model.Player;
-import game.bot.WalkerBot;
+import game.bot.walker.WalkerBot;
 import oop.graphics.Canvas;
 import oop.graphics.Graphics;
 import oop.graphics.Graphics.Colors;
@@ -125,8 +125,8 @@ public abstract class View implements IView {
 
 	}
 
-	public void paintPlayer(Graphics2D g, Player p, int x, int y, Polygon pg) {
-		int d = p.orientation();
+	public void paintPlayer(Graphics2D g, Entity e, int x, int y, Polygon pg) {
+		int d = e.orientation();
 		double rot = Math.toRadians(d);
 		AffineTransform saved = g.getTransform();
 		g.translate(x, y);

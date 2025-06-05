@@ -6,7 +6,7 @@ public interface IBrain {
 	
 	public interface IBot{
 		Entity entity();
-		void think(int elapsed);
+		void think();
 		
 	}
 }

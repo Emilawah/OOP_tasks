@@ -12,8 +12,8 @@ import engine.controller.Controller;
 import engine.model.Model;
 import engine.model.Player;
 import engine.view.View;
-import game.bot.WalkerBot;
-import game.bot.WalkerEntity;
+import game.bot.walker.WalkerBot;
+import game.bot.walker.WalkerEntity;
 import engine.brain.Brain;
 import oop.graphics.Canvas;
 
@@ -22,7 +22,6 @@ public class Game {
 	private Model m_model;
 	private View m_view;
 	private Controller m_controller;
-	private WalkerBot m_bot;
 	private Ticker m_ticker;
 	private Brain m_brain;
 

@@ -26,6 +26,7 @@ public interface IModel {
 	void config(Config c);
 	
 	public float getDim();
+	public void move(Entity e, int nrows, int ncols);
 	public void moveM(float x, float y);
 	void setView(View v);
 	

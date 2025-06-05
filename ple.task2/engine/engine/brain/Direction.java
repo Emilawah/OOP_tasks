@@ -40,6 +40,11 @@ public abstract class Direction {
 		R = new Relative(90);
 	}
 
+	public static Direction toAbsolute(int angle) {
+		
+		return new Absolute(angle);
+	}
+
 	// must be static
 	// should be private
 	private static class Absolute extends Direction {

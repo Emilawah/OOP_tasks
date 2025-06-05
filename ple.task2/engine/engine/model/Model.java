@@ -16,7 +16,7 @@ public class Model implements IModel {
 	private List<Entity> m_entities;
 	private IView m_view;
 	private Config m_conf;
-	private float dimCell = 4;
+	private float dimCell = 1;
 
 	public Model(int nr, int nc) {
 		m_ncols = nc;
@@ -47,27 +47,26 @@ public class Model implements IModel {
 	 */
 	public void move(Entity e, int nrows, int ncols) {
 
-		int new_row = e.m_row+nrows;
-		int new_col = e.m_col+ncols;
+		int new_row = e.m_row + nrows;
+		int new_col = e.m_col + ncols;
 
-		if(m_conf.tore) {
+		if (m_conf.tore) {
 			new_row = normalize(new_row, nrows());
 			new_col = normalize(new_col, ncols());
-		} 
-		else {
-			if(new_row >= m_nrows || new_col >= m_ncols || new_row < 0 || new_col <0 ) {
+		} else {
+			if (new_row >= m_nrows || new_col >= m_ncols || new_row < 0 || new_col < 0) {
 				new_row = e.m_row;
 				new_col = e.m_col;
 			}
 		}
-		
-		if(entity(new_row,new_col) == null) {
+
+		if (entity(new_row, new_col) == null) {
 			m_grid[e.m_row][e.m_col] = null;
 			e.m_row = new_row;
 			e.m_col = new_col;
 			m_grid[new_row][new_col] = e;
 		}
-		
+
 	}
 
 	public void moveM(float x, float y) {
@@ -134,7 +133,9 @@ public class Model implements IModel {
 
 	@Override
 	public Entity entity(int r, int c) {
-		return m_grid[r][c];
+		int row=normalize(r, m_nrows);
+		int col=normalize(c,m_ncols);
+		return m_grid[row][col];
 	}
 
 	@Override
@@ -174,16 +175,14 @@ public class Model implements IModel {
 		return dimCell;
 	}
 
-
-	
 	@Override
 	public void register(IView v) {
-		
+
 	}
 
 	@Override
 	public void unregister(IView v) {
-		
+
 	}
 
 }
