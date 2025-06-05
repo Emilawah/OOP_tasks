@@ -12,6 +12,9 @@ import engine.model.Model;
 import engine.model.Player;
 import engine.view.Avatar;
 import engine.view.View;
+import game.bot.tracker.TrackerAvatar;
+import game.bot.tracker.TrackerEntity;
+import game.bot.tracker.TrackerStunt;
 import game.bot.walker.*;
 import game.player.AvatarPlayer;
 import game.player.StuntPlayer;
@@ -56,9 +59,11 @@ public class View0 extends View {
 		} else if (e instanceof WalkerEntity) {
 			new AvatarWalker(this, e);
 			new StuntWalker((Model) m_model, e);
-
+		}else if (e instanceof TrackerEntity) {
+			new TrackerAvatar(this, e);
+			new TrackerStunt((Model) m_model, e);
 		}
-		m_avatarList.add((Avatar) e.avatar); // ajout de l'avatar
+		m_avatarList.add((Avatar) e.avatar); // ajout de l'avatar à la liste
 	}
 
 	@Override

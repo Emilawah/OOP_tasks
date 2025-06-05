@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 
 
 
+
 import engine.IController;
 import engine.IModel;
 import engine.IModel.Config;
@@ -12,6 +13,7 @@ import engine.controller.Controller;
 import engine.model.Model;
 import engine.model.Player;
 import engine.view.View;
+import game.bot.tracker.TrackerEntity;
 import game.bot.walker.WalkerBot;
 import game.bot.walker.WalkerEntity;
 import engine.brain.Brain;
@@ -45,6 +47,7 @@ public class Game {
 		new Player(m_model, 5, 5, 90);
 		// bots
 		new WalkerEntity(m_model,m_brain, 6,6,0);
+		new TrackerEntity(m_model,m_brain, 9,9,0);
 
 	}
 
