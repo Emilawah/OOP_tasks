@@ -55,7 +55,7 @@ public class View0 extends View {
 	public void birth(Entity e) {
 		if (e instanceof Player) {
 			new AvatarPlayer(this, e);
-			new StuntPlayer((Model) m_model, e);
+			e.stunt = new StuntPlayer((Model) m_model, e);
 		} else if (e instanceof WalkerEntity) {
 			new AvatarWalker(this, e);
 			new StuntWalker((Model) m_model, e);

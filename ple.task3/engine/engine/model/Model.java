@@ -72,13 +72,13 @@ public class Model implements IModel {
 
 	}
 
-//	public void tick(int elapsed) {
-//	    for (Entity e : m_entities) {
-//	        if (e != null && e.stunt != null) {
-//	            e.stunt.tick(elapsed);
-//	        }
-//	    }
-//	}
+	public void tick(int elapsed) {
+	    for (Entity e : m_entities) {
+	        if (e.stunt != null) {
+	            e.stunt.tick(elapsed);
+	        }
+	    }
+	}
 
 	
 	public void moveM(float x, float y) {

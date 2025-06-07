@@ -1,6 +1,5 @@
 package game.player;
 
-
 import engine.model.Entity;
 import engine.model.Model;
 import engine.model.Player;
@@ -13,7 +12,7 @@ public class StuntPlayer extends Stunt {
 
 	public StuntPlayer(Model m, Entity e) {
 		super(m, e);
-
+		this.p = (Player) e;
 	}
 
 	void progress(int progress) {
@@ -24,14 +23,21 @@ public class StuntPlayer extends Stunt {
 		return p;
 	}
 
-	public void move(int nrows, int ncols) {
-		if (action == null)
-			this.action = new PlayerMotion(this, nrows, ncols, 1000);
+	Model model() {
+		return m;
+	}
+
+	public boolean move(int nrows, int ncols) {
+		if (action == null) {
+			this.action = new PlayerMotion(this, nrows, ncols, 500);
+			return true;
+		}
+		return false;
 	}
 
 	public void up() {
 		e.face(0);
-		m.moveM(0, -speed_meter);
+		move(-1, 0);
 	}
 
 	/*
@@ -39,7 +45,7 @@ public class StuntPlayer extends Stunt {
 	 */
 	public void down() {
 		e.face(180);
-		m.moveM(0, speed_meter);
+		move(1, 0);
 	}
 
 	/*
@@ -47,7 +53,7 @@ public class StuntPlayer extends Stunt {
 	 */
 	public void left() {
 		e.face(270);
-		m.moveM(-speed_meter, 0);
+		move(0, -1);
 	}
 
 	/*
@@ -55,7 +61,7 @@ public class StuntPlayer extends Stunt {
 	 */
 	public void right() {
 		e.face(90);
-		m.moveM(speed_meter, 0);
+		move(0, 1);
 	}
 
 	@Override
@@ -97,32 +103,37 @@ public class StuntPlayer extends Stunt {
 	public class PlayerMotion implements Action {
 
 		private StuntPlayer sp;
-		private Model m = sp.m;
-		private Player p = sp.entity();
+		private Model m;
+		private Player p;
 
 		private int nrows, ncols;
 		private int duration, delay, step, elapsed;
 		private boolean moved;
 
 		PlayerMotion(StuntPlayer sp, int nrows, int ncols, int duration) {
-			this.nrows = nrows;
-			this.ncols = ncols;
 			this.sp = sp;
-			this.m = sp.m;
-			this.duration = duration;
-			this.ncols = ncols;
 			this.nrows = nrows;
+			this.ncols = ncols;
+			this.duration = duration;
 			this.delay = duration / 2;
+			this.step = 0;
+			this.elapsed = 0;
+
+			this.m = sp.model();
 			this.p = sp.entity();
+
+
 		}
 
 		@Override
 		public void tick(int elapsed) {
-			float percent;
 
 			this.elapsed += elapsed;
-			percent = (float) elapsed / (float) duration;
-			this.sp.progress = (int) (100 * percent);
+
+			float percent;
+
+			percent = (float) this.elapsed / (float) duration;
+			sp.progress = (int) (100 * percent);
 
 			delay -= elapsed;
 			if (delay > 0)
@@ -146,6 +157,18 @@ public class StuntPlayer extends Stunt {
 		public int kind() {
 			// TODO Auto-generated method stub
 			return 0;
+		}
+
+		public boolean hasMoved() {
+			return moved;
+		}
+
+		public int getNRows() {
+			return nrows;
+		}
+
+		public int getNCols() {
+			return ncols;
 		}
 
 	}

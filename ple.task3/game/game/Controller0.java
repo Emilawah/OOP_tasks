@@ -29,15 +29,15 @@ public class Controller0 extends Controller {
 
 	@Override
 	protected void pressed(Canvas canvas, int keyCode, char keyChar) {
-		StuntPlayer stunt = (StuntPlayer) m_model.player().stunt;
+		StuntPlayer sp = (StuntPlayer) m_model.player().stunt;
 
 		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_LEFT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_LEFT)
 				&& m_shift) {
-			stunt.rotate(-90);
+			sp.rotate(-90);
 		}
 		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_RIGHT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_RIGHT)
 				&& m_shift) {
-			stunt.rotate(90);
+			sp.rotate(90);
 		}
 		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_UP || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_UP)
 				&& m_shift) {
@@ -51,18 +51,18 @@ public class Controller0 extends Controller {
 
 		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_LEFT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_LEFT)
 				&& !m_shift && !m_control) {
-			stunt.left();
+			sp.left();
 		} else if ((keyCode == oop.graphics.VirtualKeyCodes.VK_RIGHT
 				|| keyCode == oop.graphics.VirtualKeyCodes.VK_KP_RIGHT) && !m_shift && !m_control) {
-			stunt.right();
+			sp.right();
 		} else if ((keyCode == oop.graphics.VirtualKeyCodes.VK_UP || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_UP)
 				&& !m_control) {
-			stunt.up();
+			sp.up();
 
 		} else if ((keyCode == oop.graphics.VirtualKeyCodes.VK_DOWN
 				|| keyCode == oop.graphics.VirtualKeyCodes.VK_KP_DOWN) && !m_control) {
 
-			stunt.down();
+			sp.down();
 
 		}
 

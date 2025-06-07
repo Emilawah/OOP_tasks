@@ -7,7 +7,7 @@ public abstract class Stunt {
 	protected Entity e;
 	protected Action action;
 	protected int progress;
-	private static final int INT_DURATION = 1000;
+	private static final int DURATION = 1000;
 
 	public interface Action {
 
@@ -23,10 +23,13 @@ public abstract class Stunt {
 	}
 
 	// ACTIONS
-	public void move(int nrows, int ncols) {
+
+	public boolean move(int nrows, int ncols) {
 		if (action == null) {
-			this.action = new Motion(nrows, ncols, INT_DURATION);
+			this.action = new Motion(nrows, ncols, DURATION);
+			return true;
 		}
+		return false;
 	}
 
 	public void rotate(int angle) {
@@ -43,10 +46,13 @@ public abstract class Stunt {
 
 	public void tick(int elapsed) {
 		if (action == null) {
-			IBot bot = e.bot;
-			bot.think(elapsed);
-		} else
-			action.tick(elapsed);
+	        if (e.bot != null) {
+	            e.bot.think(elapsed);
+	        }
+	        // sinon : ne rien faire (pas d’action, pas de bot à appeler)
+	    } else {
+	        action.tick(elapsed);
+	    }
 	}
 
 	private class Motion implements Action {
@@ -62,7 +68,7 @@ public abstract class Stunt {
 			this.duration = duration;
 			this.delay = duration / 2;
 			this.elapsed = 0;
-			this.delay=0;
+		
 		}
 
 		@Override
@@ -70,7 +76,8 @@ public abstract class Stunt {
 			float percent;
 
 			this.elapsed += elapsed;
-			percent = (float) elapsed / (float) duration;
+			percent = (float) this.elapsed / (float) duration;
+			
 			Stunt.this.progress = (int) (100 * percent);
 
 			delay -= elapsed;

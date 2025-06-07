@@ -60,7 +60,8 @@ public class Game {
 	}
 
 	public void tick(int elapsed) {
-		m_brain.tick(elapsed);
+		m_model.tick(elapsed);// gère le stunt
+		m_brain.tick(elapsed);// gère les bots
 	}
 
 }
