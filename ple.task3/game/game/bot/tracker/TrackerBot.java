@@ -20,7 +20,26 @@ public class TrackerBot extends Bot {
 
 	
 	public void think() {
-		move(dirOf(closest(Category.Player)).cardinalOf());
+		Entity e = closest(Category.Adversary);
+		if (e == null)
+			return;
+		Direction d = dirOf(e).cardinalOf();
+		if (d == Direction.N) {
+			move(Direction.N);
+			return;
+		}
+		if (d == Direction.E) {
+			move(Direction.E);
+			return;
+		}
+		if (d == Direction.S) {
+			move(Direction.S);
+			return;
+		}
+		if (d == Direction.W) {
+			move(Direction.W);
+			return;
+		}
 	}
 
 	@Override

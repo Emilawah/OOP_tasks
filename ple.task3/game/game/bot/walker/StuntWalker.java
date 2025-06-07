@@ -11,8 +11,5 @@ public class StuntWalker extends Stunt{
 		super(m,e);
 	}
 	
-//	@Override 
-//	public void move(int nrows, int ncols) {
-//		m.move(e, nrows, ncols);
-//	}
+
 }

@@ -46,7 +46,24 @@ public class WalkerBot extends Bot {
 
 	@Override
 	public void think(int elapsed) {
-		
+		if (cell(Direction.F) == null) {
+			move(Direction.F);
+			return;
+		}
+		if (cell(Direction.L) == null) {
+			turn(Direction.L);
+			return;
+		}
+
+		if (cell(Direction.R) == null) {
+			turn(Direction.R);
+			return;
+		}
+
+		if (cell(Direction.B) == null) {
+			turn(Direction.B);
+			return;
+		}
 	}
 
 }

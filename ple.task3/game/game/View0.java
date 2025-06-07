@@ -44,33 +44,13 @@ public class View0 extends View {
 		// peint la grille
 		debug(canvas, g);
 
-		drawEntitie(g);
 		// on affiche chaque avatar dans la vue
 		for (Avatar a : m_avatarList) {
 			a.render(g);
 		}
 
 	}
-    private void drawEntitie(Graphics2D g) {
-        int w = m_canvas.getWidth();
-        int h = m_canvas.getHeight();
-        int nrows = m_model.nrows();
-        int ncols = m_model.ncols();
-        int cell = Math.min(w / ncols, h / nrows);
-        
-        g.setColor(java.awt.Color.RED);
-        int pointSize = 10;
-        
-        for (int row = 0; row < nrows; row++) {
-            for (int col = 0; col < ncols; col++) {
-                if (m_model.entity(row, col) != null) {
-                    int x = col * cell + cell / 2 - pointSize / 2;
-                    int y = row * cell + cell / 2 - pointSize / 2;
-                    g.fillOval(x, y, pointSize, pointSize);
-                }
-            }
-        }
-    }
+
 	@Override
 	public void birth(Entity e) {
 		if (e instanceof Player) {

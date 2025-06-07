@@ -57,7 +57,7 @@ public class Game {
 	}
 
 	public void tick(int elapsed) {
-//		m_model.tick(elapsed);
+		m_brain.tick(elapsed);
 	}
 
 }
