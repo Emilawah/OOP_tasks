@@ -64,10 +64,9 @@ public class AvatarPlayer extends Avatar {
 					pixelX = (int) ((col + 0.5 + dx * progress) * cell);
 					pixelY = (int) ((row + 0.5 + dy * progress) * cell);
 				} else {
-					// le *2 me permet une fluidité (éviter un tp vers la case)
 					playerColor = java.awt.Color.YELLOW;
-					pixelX = (int) ((col + 0.5 + dx * progress * 2) * cell);
-					pixelY = (int) ((row + 0.5 + dy * progress * 2) * cell);
+					pixelX = (int) ((col + 0.5 + dx * progress*2) * cell);
+					pixelY = (int) ((row + 0.5 + dy * progress*2) * cell);
 
 				}
 

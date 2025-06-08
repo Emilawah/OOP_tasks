@@ -9,6 +9,7 @@ import engine.model.Entity;
 import engine.model.Player;
 import engine.view.Avatar;
 import engine.view.View;
+import game.player.StuntPlayer;
 
 public class AvatarWalker extends Avatar{
 
@@ -16,7 +17,7 @@ public class AvatarWalker extends Avatar{
 		super(v, e);
 	}
 
-	
+	@Override
 	public void render(Graphics2D g) {
 		int w = canvas.getWidth();
 		int h = canvas.getHeight();
@@ -37,9 +38,45 @@ public class AvatarWalker extends Avatar{
 		
 		g.setColor(java.awt.Color.BLUE);
 
-		int pixelx = (int) ((e.col() / model.getDim()) * v.getSizeCell()+v.getSizeCell()/2);
-		int pixely = (int) ((e.row() / model.getDim()) * v.getSizeCell()+v.getSizeCell()/2);
+		int col = e.col();
+		int row = e.row();
+		int pixelX = (int) ((col + 0.5) * cell);
+		int pixelY = (int) ((row + 0.5) * cell);
+		
+		StuntWalker sw = (StuntWalker) e.stunt;
+		java.awt.Color playerColor = java.awt.Color.BLUE;
 
-		v.paintPlayer(g, e, pixelx, pixely, triangle);
+		if (sw.progress() > 0) {
+			double progress = sw.progress() / 100.0;
+
+			// Direction du mouvement
+			int dx = sw.getSWX();
+			int dy = sw.getSWY();
+
+			// Si on est dans la première moitié de la progression
+			if (sw.progress() < 50) {
+
+				int targetCol = col + dx;
+				int targetRow = row + dy;
+
+				// Vérification s'il y a une entité en face
+				Entity target = model.entity(targetRow, targetCol);
+
+				if (target != null) {
+					playerColor = java.awt.Color.MAGENTA;
+					pixelX = (int) ((col + 0.5 + dx * progress) * cell);
+					pixelY = (int) ((row + 0.5 + dy * progress) * cell);
+				} else {
+					playerColor = java.awt.Color.BLUE;
+					pixelX = (int) ((col + 0.5 + dx * progress*2) * cell);
+					pixelY = (int) ((row + 0.5 + dy * progress*2) * cell);
+
+				}
+
+			} else {
+				g.setColor(java.awt.Color.BLUE);
+			}
+		}
+		v.paintPlayer(g, e, pixelX, pixelY, triangle);
 	}
 }

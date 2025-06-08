@@ -14,6 +14,8 @@ public abstract class Entity {
 	public IBot bot;
 	protected Category category;
 
+	public float px;
+	public float py;
 
 	protected Entity(Model m, int r, int c, int o) {
 		m_model = m;
@@ -21,6 +23,8 @@ public abstract class Entity {
 		m_col = c;
 		m_metric = true;
 		m_orientation = normalize(o);
+		px = c;
+		py = r;
 		m_model.addAt(this);
 
 	}

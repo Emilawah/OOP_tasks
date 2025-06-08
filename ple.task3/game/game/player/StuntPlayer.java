@@ -158,7 +158,7 @@ public class StuntPlayer extends Stunt {
 			case 0:
 				step++;
 				moved = m.move(e, nrows, ncols);
-				this.delay = duration / 2;
+				this.delay = duration / 10;
 				break;
 			case 1:
 				step++;

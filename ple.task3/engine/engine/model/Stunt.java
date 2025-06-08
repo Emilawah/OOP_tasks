@@ -7,7 +7,7 @@ public abstract class Stunt {
 	protected Entity e;
 	protected Action action;
 	protected int progress;
-	private static final int DURATION = 1000;
+	private static final int DURATION = 1;
 
 	public interface Action {
 
@@ -55,14 +55,14 @@ public abstract class Stunt {
 	    }
 	}
 
-	private class Motion implements Action {
+	public class Motion implements Action {
 
 		private int nrows, ncols;
 		private int delay, duration, step, elapsed;
 		private boolean moved;
 
 
-		Motion(int nrows, int ncols, int duration) {
+		public Motion(int nrows, int ncols, int duration) {
 			this.nrows = nrows;
 			this.ncols = ncols;
 			this.duration = duration;
