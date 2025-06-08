@@ -29,7 +29,7 @@ public class StuntPlayer extends Stunt {
 
 	public boolean move(int nrows, int ncols) {
 		if (action == null) {
-			this.action = new PlayerMotion(this, nrows, ncols, 500);
+			this.action = new PlayerMotion(this, nrows, ncols, 300);
 			return true;
 		}
 		return false;
@@ -99,6 +99,21 @@ public class StuntPlayer extends Stunt {
 		}
 
 	}
+	
+	public int getSPX() {
+	    if (action instanceof PlayerMotion) {
+	        return ((PlayerMotion) action).getNCols();
+	    }
+	    return 0;
+	}
+
+	public int getSPY() {
+	    if (action instanceof PlayerMotion) {
+	        return ((PlayerMotion) action).getNRows();
+	    }
+	    return 0;
+	}
+
 
 	public class PlayerMotion implements Action {
 

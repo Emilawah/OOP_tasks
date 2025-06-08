@@ -47,7 +47,7 @@ public class Game {
 		// player
 		new Player(m_model, 5, 5, 90);
 		// bots
-		for(int i = 6 ; i < 10 ; i++) {
+		for(int i = 6 ; i < 15 ; i++) {
 			new WalkerEntity(m_model, m_brain, i, i, 0);
 		}
 
