@@ -64,14 +64,53 @@ public class StuntPlayer extends Stunt {
 		move(0, 1);
 	}
 
-	@Override
 	public void rotate(int angle) {
-		if (angle < 0) {
-			angle = cardinalOf_1(e.orientation());
-		} else {
-			angle = cardinalOf_2(e.orientation());
+		if (action == null) {
+			this.action = new PlayerRotation(this, angle, 300);
 		}
+	}
+
+	public void rotateS(int angle) {
 		super.rotate(angle);
+	}
+
+	public int getSPX() {
+		if (action instanceof PlayerMotion) {
+			return ((PlayerMotion) action).getNCols();
+		}
+		return 0;
+	}
+
+	public int getSPY() {
+		if (action instanceof PlayerMotion) {
+			return ((PlayerMotion) action).getNRows();
+		}
+		return 0;
+	}
+	
+	public float getPosX() {
+	    if (action instanceof PlayerMotion) {
+	        PlayerMotion pm = (PlayerMotion) action;
+	        float progress = this.progress / 100.0f;
+	        return p.col() + 0.5f + pm.getNCols() * progress;
+	    }
+	    return p.col() + 0.5f;
+	}
+
+	public float getPosY() {
+	    if (action instanceof PlayerMotion) {
+	        PlayerMotion pm = (PlayerMotion) action;
+	        float progress = this.progress / 100.0f;
+	        return p.row() + 0.5f + pm.getNRows() * progress;
+	    }
+	    return p.row() + 0.5f;
+	}
+
+	public int getAngle() {
+		if (action instanceof PlayerRotation) {
+			return ((PlayerRotation) action).getAngle();
+		}
+		return 0;
 	}
 
 	public int cardinalOf_2(int angle) {
@@ -99,21 +138,6 @@ public class StuntPlayer extends Stunt {
 		}
 
 	}
-	
-	public int getSPX() {
-	    if (action instanceof PlayerMotion) {
-	        return ((PlayerMotion) action).getNCols();
-	    }
-	    return 0;
-	}
-
-	public int getSPY() {
-	    if (action instanceof PlayerMotion) {
-	        return ((PlayerMotion) action).getNRows();
-	    }
-	    return 0;
-	}
-
 
 	public class PlayerMotion implements Action {
 
@@ -136,7 +160,6 @@ public class StuntPlayer extends Stunt {
 
 			this.m = sp.model();
 			this.p = sp.entity();
-
 
 		}
 
@@ -170,7 +193,6 @@ public class StuntPlayer extends Stunt {
 
 		@Override
 		public int kind() {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 
@@ -184,6 +206,71 @@ public class StuntPlayer extends Stunt {
 
 		public int getNCols() {
 			return ncols;
+		}
+
+	}
+
+	public class PlayerRotation implements Action {
+
+		private StuntPlayer sp;
+		private Model m;
+		private Player p;
+
+		private int angle;
+		private int duration, delay, step, elapsed;
+
+		PlayerRotation(StuntPlayer sp, int angle, int duration) {
+			this.sp = sp;
+			this.m = sp.model();
+			this.p = sp.entity();
+
+			this.duration = duration;
+			this.delay = duration / 2;
+			this.step = 0;
+			this.elapsed = 0;
+			if (angle < 0) {
+				this.angle = sp.cardinalOf_1(p.orientation());
+			} else {
+				this.angle = sp.cardinalOf_2(p.orientation());
+			}
+
+		}
+
+		@Override
+		public void tick(int elapsed) {
+
+			this.elapsed += elapsed;
+
+			float percent;
+
+			percent = (float) this.elapsed / (float) duration;
+			sp.progress = (int) (100 * percent);
+
+			delay -= elapsed;
+			if (delay > 0)
+				return;
+
+			switch (step) {
+			case 0:
+				step++;
+				sp.rotateS(angle);
+				this.delay = duration / 2;
+				break;
+			case 1:
+				step++;
+				action = null;
+				break;
+			}
+
+		}
+
+		@Override
+		public int kind() {
+			return 1; // 1 : type d'action -> rotation
+		}
+
+		public int getAngle() {
+			return angle;
 		}
 
 	}

@@ -70,7 +70,7 @@ public class StuntWalker extends Stunt {
 			case 0:
 				step++;
 				moved = m.move(e, nrows, ncols);
-				this.delay = duration / 10;
+				this.delay = duration / 20;
 				break;
 			case 1:
 				step++;

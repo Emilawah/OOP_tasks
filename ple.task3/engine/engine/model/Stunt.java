@@ -100,7 +100,6 @@ public abstract class Stunt {
 
 		@Override
 		public int kind() {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 	}

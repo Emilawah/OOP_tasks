@@ -11,7 +11,7 @@ import engine.view.Avatar;
 import engine.view.View;
 import game.player.StuntPlayer;
 
-public class AvatarWalker extends Avatar{
+public class AvatarWalker extends Avatar {
 
 	public AvatarWalker(View v, Entity e) {
 		super(v, e);
@@ -35,14 +35,14 @@ public class AvatarWalker extends Avatar{
 		triangle.addPoint(l / 2, hauteur / 2); // coin bas droit
 
 		// peint le joueur
-		
+
 		g.setColor(java.awt.Color.BLUE);
 
 		int col = e.col();
 		int row = e.row();
 		int pixelX = (int) ((col + 0.5) * cell);
 		int pixelY = (int) ((row + 0.5) * cell);
-		
+
 		StuntWalker sw = (StuntWalker) e.stunt;
 		java.awt.Color playerColor = java.awt.Color.BLUE;
 
@@ -68,8 +68,8 @@ public class AvatarWalker extends Avatar{
 					pixelY = (int) ((row + 0.5 + dy * progress) * cell);
 				} else {
 					playerColor = java.awt.Color.BLUE;
-					pixelX = (int) ((col + 0.5 + dx * progress*2) * cell);
-					pixelY = (int) ((row + 0.5 + dy * progress*2) * cell);
+					pixelX = (int) ((col + 0.5 + dx * progress * 2) * cell);
+					pixelY = (int) ((row + 0.5 + dy * progress * 2) * cell);
 
 				}
 

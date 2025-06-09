@@ -140,10 +140,10 @@ public class Controller0 extends Controller {
 
 	private int angle(Canvas canvas) {
 
+		StuntPlayer stunt = (StuntPlayer) m_model.player().stunt;
 		// Position (x,y) du joueur (on converti en pixels)
-		float x0 = (m_model.player().getX() / m_model.getDim()) * m_view.getSizeCell() + m_view.getSizeCell() / 2;
-		float y0 = (m_model.player().getY() / m_model.getDim()) * m_view.getSizeCell() + m_view.getSizeCell() / 2;
-
+		float x0 = stunt.getPosX() * m_view.getSizeCell();
+	    float y0 = stunt.getPosY() * m_view.getSizeCell();
 		// position (x,y) de la souris
 		float x = (mouseX - m_view.getGraphX()) / m_view.getZoom();
 		float y = (mouseY - m_view.getGraphY()) / m_view.getZoom();
