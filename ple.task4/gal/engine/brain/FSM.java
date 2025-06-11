@@ -21,9 +21,10 @@ class FSM {
 
 	}
 
-	boolean transit() {
+	boolean transit(Bot bot) {
+		
 		for (Transition t : mode.transitions) {
-			if (t.condition.eval(bot)) {
+			if (t.condition.eval(bot) && t.action.acceptedBy(bot)) {
 				t.action.exec(bot);
 
 				Mode newMode = canocical(t.target.name);

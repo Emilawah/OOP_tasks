@@ -24,8 +24,9 @@ import gal.ast.UnaryOp;
 import gal.ast.Underscore;
 import gal.ast.Value;
 
-public class TODO_Ast2FSM implements IVisitor{
+public class Ast2FSM implements IVisitor{
 
+	
 	@Override
 	public Object build(Terminal name) {
 		// TODO Auto-generated method stub
@@ -300,6 +301,6 @@ public class TODO_Ast2FSM implements IVisitor{
 	public Object build(AST ast, List<Object> automata) {
 		// TODO Auto-generated method stub
 		return null;
-	} //implements IVisitor {
+	} 
 
 }

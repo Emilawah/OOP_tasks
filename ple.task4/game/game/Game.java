@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 
 
 
+
 import engine.IController;
 import engine.IModel;
 import engine.IModel.Config;
@@ -13,6 +14,8 @@ import engine.controller.Controller;
 import engine.model.Model;
 import engine.model.Player;
 import engine.view.View;
+import gal.ast.AST;
+import gal.ast.export.Ast2FSM;
 import game.bot.tracker.TrackerEntity;
 import game.bot.walker.WalkerBot;
 import game.bot.walker.WalkerEntity;
@@ -29,6 +32,8 @@ public class Game {
 	private Brain m_brain;
 
 	Game(Canvas canvas, int nrows, int ncols) {
+		
+		
 		this.m_canvas = canvas;
 
 		IModel.Config conf = new Config();
@@ -55,6 +60,12 @@ public class Game {
 
 	}
 
+	
+	public void loadAutomata(String filename) {
+		AST ast;
+		Ast2FSM visitor = new Ast2FSM();
+	}
+	
 	public void paint(Canvas canvas, Graphics2D g) {
 		m_view.paint(canvas, g);
 	}
