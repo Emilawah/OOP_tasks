@@ -5,10 +5,11 @@ public abstract class Category {
 	//
 	public static final Category Category;
 
-	public static final Category Player;
+	public static final Category PLAYER;
 	public static final Category Obstacle;
-	public static final Category Adversary;
-
+	public static final Category ADVERSARY;
+	public static final Category TEAM;
+	public static final Category VOID;
 	public static final Category Tree;
 	public static final Category Rock;
 	public static final Category Wall;
@@ -30,15 +31,18 @@ public abstract class Category {
 		// Category
 		Category = new Type(null);
 
-		Player = new Type(Category);
+		PLAYER = new Type(Category);
 		Obstacle = new Type(Category);
-		Adversary = new Type(Category);
-
+		ADVERSARY = new Type(Category);
+		TEAM = new Type(Category);
+		VOID = new Type(Category);
+		
+		// unused atm
 		Tree = new Type(Obstacle);
 		Rock = new Type(Obstacle);
 		Wall = new Type(Obstacle);
-		Ghost = new Type(Adversary);
-		Assassin = new Type(Adversary);
+		Ghost = new Type(ADVERSARY);
+		Assassin = new Type(ADVERSARY);
 
 	}
 

@@ -20,7 +20,7 @@ public class TrackerBot extends Bot {
 
 	
 	public void think() {
-		Entity e = closest(Category.Adversary);
+		Entity e = closest(Category.ADVERSARY);
 		if (e == null)
 			return;
 		Direction d = dirOf(e).cardinalOf();
@@ -44,7 +44,7 @@ public class TrackerBot extends Bot {
 
 	@Override
 	public void think(int elapsed) {
-		Entity e = closest(Category.Adversary);
+		Entity e = closest(Category.ADVERSARY);
 		if (e == null)
 			return;
 		Direction d = dirOf(e).cardinalOf();

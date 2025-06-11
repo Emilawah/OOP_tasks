@@ -11,7 +11,7 @@ public class WalkerEntity extends Entity {
 	
 	public WalkerEntity(Model m, Brain b, int row, int col, int orientation) {
 		super(m, row, col, orientation);
-		this.category = Category.Adversary;
+		this.category = Category.ADVERSARY;
 		new WalkerBot(b, this);
 		
 	}

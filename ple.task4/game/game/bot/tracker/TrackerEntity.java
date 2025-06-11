@@ -9,7 +9,7 @@ public class TrackerEntity extends Entity{
 
 	public TrackerEntity(Model m,Brain b, int r, int c, int o) {
 		super(m, r, c, o);
-		this.category = Category.Adversary;
+		this.category = Category.ADVERSARY;
 		new TrackerBot(b, this);
 	}
 

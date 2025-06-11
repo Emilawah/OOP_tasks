@@ -19,6 +19,8 @@ public abstract class Direction {
 	public static final Direction L; // left
 	public static final Direction R; // right
 
+	public static final Direction HERE;
+
 	public abstract boolean isRelative();
 
 	public abstract int degrees();
@@ -38,12 +40,12 @@ public abstract class Direction {
 		B = new Relative(180);
 		L = new Relative(270);
 		R = new Relative(90);
+		HERE = new Here();
 	}
 
 	public static Direction toAbsolute(int angle) {
 		return new Absolute(angle);
 	}
-
 
 	public static Direction cardinalOrient(int orientation, Direction d) {
 		if (d.isRelative()) {
@@ -90,14 +92,14 @@ public abstract class Direction {
 		public Direction cardinalOf() {
 			int a = degrees();
 			if ((a >= 315 && a < 360) || (a >= 0 && a < 45)) {
-                return N;
-            } else if (a >= 45 && a < 135) {
-                return E;
-            } else if (a >= 135 && a < 225) {
-                return S;
-            } else {
-                return W;
-            }
+				return N;
+			} else if (a >= 45 && a < 135) {
+				return E;
+			} else if (a >= 135 && a < 225) {
+				return S;
+			} else {
+				return W;
+			}
 		}
 
 	}
@@ -130,6 +132,39 @@ public abstract class Direction {
 		public Direction rotate(int angle) {
 
 			return new Relative(degrees() + angle);
+		}
+
+		@Override
+		public Direction cardinalOf() {
+			return this;
+		}
+
+	}
+
+	private static class Here extends Direction {
+
+		protected Here() {
+			super(0);
+		}
+
+		@Override
+		public boolean isRelative() {
+			return false;
+		}
+
+		@Override
+		public int degrees() {
+			return 0;
+		}
+
+		@Override
+		public boolean equals(Direction d) {
+			return d instanceof Here;
+		}
+
+		@Override
+		public Direction rotate(int angle) {
+			return this;
 		}
 
 		@Override

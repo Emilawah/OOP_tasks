@@ -5,7 +5,7 @@ import oop.graphics.Canvas;
 import oop.runtime.EventPump;
 import oop.tasks.Task;
 
-public class MainTask3 {
+public class MainTask4 {
 
 	public static void main(String args[]) {
 		EventPump ep = new EventPump();

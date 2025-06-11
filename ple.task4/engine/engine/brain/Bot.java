@@ -7,6 +7,8 @@ import engine.model.Model;
 import engine.model.Player;
 
 public abstract class Bot implements IBot {
+
+	protected Mode mode;
 	protected Brain b;
 	protected Entity e;
 	protected Category category;
@@ -84,5 +86,7 @@ public abstract class Bot implements IBot {
 		return model.player();
 
 	}
+	
+	
 
 }

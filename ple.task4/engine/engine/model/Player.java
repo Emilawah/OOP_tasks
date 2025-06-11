@@ -11,7 +11,7 @@ public class Player extends Entity {
 		super(m_model, x, y, o);
 		px = m_model.getDim() * x;
 		py = m_model.getDim() * y;
-		category = Category.Player;
+		category = Category.PLAYER;
 	}
 
 	public float getX() {
