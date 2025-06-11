@@ -33,12 +33,10 @@ public abstract class Bot implements IBot {
 		}
 	}
 
-
 	protected void move(Direction d) {
 
 		Direction dir = Direction.cardinalOrient(e.orientation(), d);
 
-		
 		turn(dir);
 		if (dir.equals(Direction.N)) {
 			e.stunt.move(-1, 0);
@@ -49,7 +47,7 @@ public abstract class Bot implements IBot {
 		} else if (dir.equals(Direction.W)) {
 			e.stunt.move(0, -1);
 		}
-	
+
 	}
 
 	protected Entity cell(Direction d) {
@@ -82,11 +80,39 @@ public abstract class Bot implements IBot {
 		return null;
 	}
 
+	protected Entity cell(Direction d, int radius, Category c) {
+		int row = e.row();
+		int col = e.col();
+		Direction cardinal = Direction.cardinalOrient(e.orientation(), d);
+
+		for (int i = 1; i <= radius; i++) {
+			
+			if(cardinal.equals(Direction.N)) {
+				row--;
+			}
+			else if(cardinal.equals(Direction.E)) {
+				col++;
+			}
+			else if(cardinal.equals(Direction.S)) {
+				row++;
+			}
+			else if(cardinal.equals(Direction.W)) {
+				col--;
+			}
+
+			Entity ent = b.model.entity(row, col);
+			if (ent != null && ent.getCategory().specializes(c)) {
+				return ent;
+			}
+		}
+
+	return null;
+
+	}
+
 	protected Entity closest(Category c) {
 		return model.player();
 
 	}
-	
-	
 
 }

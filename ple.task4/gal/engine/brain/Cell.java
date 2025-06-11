@@ -20,7 +20,7 @@ class Cell extends ConditionGAL {
 
 	// REQUIRED
 	boolean eval(Bot bot){
-        return bot.cell(dir,radius,cat);
+        return bot.cell(dir, radius, cat) != null;
     }
 
 }

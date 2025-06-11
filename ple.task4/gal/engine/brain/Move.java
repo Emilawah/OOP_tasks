@@ -1,30 +1,32 @@
 package engine.brain;
 
-class Move extends ActionGAL{
-	// The optional parameters of a Move 
-    Direction d; // its direction
-    int i;       // a number of step
+class Move extends ActionGAL {
+	// The optional parameters of a Move
+	Direction d; // its direction
+	int i; // a number of step
 
-    // plusieurs constructeurs
+	// plusieurs constructeurs
 
-    Move(){
-    	// par defaut
-        d = Direction.F ;
-        i = 1 ;
-    }
+	Move() {
+		// par defaut
+		d = Direction.F;
+		i = 1;
+	}
 
-    Move(Direction d, int i){ 
-    	
-    }
+	Move(Direction d, int i) {
+		this.d = d;
+		this.i = i;
+	}
 
-    // REQUIRED 
+	// REQUIRED
 
-    void exec(Bot b){
-    }
+	void exec(Bot b) {
+		b.move(d);
+	}
 
 	@Override
 	boolean acceptedBy(Bot b) {
-		// TODO Auto-generated method stub
-		return false;
-	} 
+
+		return !b.entity().stunt.moved();
+	}
 }

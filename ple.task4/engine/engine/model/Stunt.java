@@ -24,6 +24,11 @@ public abstract class Stunt {
 
 	// ACTIONS
 
+	public boolean moved() {
+		return action != null;
+	}
+	
+	
 	public boolean move(int nrows, int ncols) {
 		if (action == null) {
 			this.action = new Motion(nrows, ncols, DURATION);
