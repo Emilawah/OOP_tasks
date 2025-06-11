@@ -65,6 +65,7 @@
 			<src path="engine"/>
 			<src path="game"/>
 			<src path="gal"/>
+			<src path="parser"/>
 		</javac>
 	</target>
 
