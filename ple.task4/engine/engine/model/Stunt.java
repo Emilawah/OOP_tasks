@@ -29,13 +29,7 @@ public abstract class Stunt {
 	}
 	
 	
-	public boolean move(int nrows, int ncols) {
-		if (action == null) {
-			this.action = new Motion(nrows, ncols, DURATION);
-			return true;
-		}
-		return false;
-	}
+	public abstract boolean move(int nrows, int ncols);
 
 	public void rotate(int angle) {
 		e.face(angle);

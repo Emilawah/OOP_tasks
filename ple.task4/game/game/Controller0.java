@@ -41,12 +41,12 @@ public class Controller0 extends Controller {
 		}
 		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_UP || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_UP)
 				&& m_shift) {
-			isMoving = true;
-			startMove();
+//			isMoving = true;
+//			startMove();
 		}
 		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_DOWN || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_DOWN)
 				&& m_shift) {
-			isMoving = false;
+//			isMoving = false;
 		}
 
 		if ((keyCode == oop.graphics.VirtualKeyCodes.VK_LEFT || keyCode == oop.graphics.VirtualKeyCodes.VK_KP_LEFT)
